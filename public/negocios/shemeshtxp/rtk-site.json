@@ -1,0 +1,178 @@
+{
+    "meta": {
+        "format": "routicket-site-config",
+        "version": 1,
+        "updated_at": "2026-08-06T02:53:16+02:00"
+    },
+    "site": {
+        "business_name": "Shemesh YM",
+        "template_key": "existing"
+    },
+    "data": {
+        "local_products": true,
+        "api_kind": "local-config"
+    },
+    "settings": {
+        "accent": "#00C2CB",
+        "secondary": "#8BC34A",
+        "headline": "Shemesh YM",
+        "whatsapp": "527838409727",
+        "logo": "/negocios/shemeshtxp/logo.svg"
+    },
+    "store": {
+        "name": "Shemesh YM",
+        "status": "published"
+    },
+    "products": [
+        {
+            "id": 1,
+            "name": "Barras de Access",
+            "description": "32 puntos en la cabeza para soltar cargas, pensamientos repetitivos y bloqueos energeticos.",
+            "price": 0,
+            "currency": "MXN",
+            "image": "",
+            "id_categoria": null,
+            "category_name": "Servicios"
+        },
+        {
+            "id": 2,
+            "name": "Facelift energetico",
+            "description": "Sistema inmune",
+            "price": 0,
+            "currency": "MXN",
+            "image": "",
+            "id_categoria": null,
+            "category_name": "Servicios"
+        },
+        {
+            "id": 3,
+            "name": "Reiki",
+            "description": "Sesion de energia universal para armonizar cuerpo, mente y emociones.",
+            "price": 0,
+            "currency": "MXN",
+            "image": "",
+            "id_categoria": null,
+            "category_name": "Servicios"
+        },
+        {
+            "id": 4,
+            "name": "Sanando el corazon",
+            "description": "Liberacion ancestral",
+            "price": 0,
+            "currency": "MXN",
+            "image": "",
+            "id_categoria": null,
+            "category_name": "Servicios"
+        },
+        {
+            "id": 5,
+            "name": "Terapias energeticas",
+            "description": "Herramientas intuitivas y holisticas para acompanamiento personal.",
+            "price": 0,
+            "currency": "MXN",
+            "image": "",
+            "id_categoria": null,
+            "category_name": "Servicios"
+        },
+        {
+            "id": 6,
+            "name": "Limpiezas energeticas",
+            "description": "Limpieza para personas, casas, oficinas y espacios de trabajo.",
+            "price": 0,
+            "currency": "MXN",
+            "image": "",
+            "id_categoria": null,
+            "category_name": "Servicios"
+        },
+        {
+            "id": 7,
+            "name": "Meditaciones",
+            "description": "Meditaciones guiadas y contenido para reconectar con calma y presencia.",
+            "price": 0,
+            "currency": "MXN",
+            "image": "",
+            "id_categoria": null,
+            "category_name": "Servicios"
+        },
+        {
+            "id": 8,
+            "name": "Canal Shemesh YM",
+            "description": "Sesiones guiadas",
+            "price": 0,
+            "currency": "MXN",
+            "image": "",
+            "id_categoria": null,
+            "category_name": "Servicios"
+        },
+        {
+            "id": 9,
+            "name": "Canalizacion con Angeles",
+            "description": "Sesion donde el canal Shemesh YM transmite mensajes, guia y presencia de los angeles para obtener claridad, orientacion y paz ante cualquier situacion de la vida.",
+            "price": 0,
+            "currency": "MXN",
+            "image": "",
+            "id_categoria": null,
+            "category_name": "Servicios"
+        },
+        {
+            "id": 10,
+            "name": "Sanacion Angelical",
+            "description": "Tratamiento con energia angelical para armonizar el cuerpo, la mente y las emociones, liberar bloqueos y restaurar el equilibrio energetico.",
+            "price": 0,
+            "currency": "MXN",
+            "image": "",
+            "id_categoria": null,
+            "category_name": "Servicios"
+        },
+        {
+            "id": 11,
+            "name": "Armonia corporal",
+            "description": "Liberacion de cargas",
+            "price": 0,
+            "currency": "MXN",
+            "image": "",
+            "id_categoria": null,
+            "category_name": "Servicios"
+        },
+        {
+            "id": 12,
+            "name": "Lectura de Tarot Angelical",
+            "description": "Lectura guiada por los angeles utilizando el tarot angelical para visualizar caminos, decisiones, oportunidades y resolver dudas con acompasamiento.",
+            "price": 0,
+            "currency": "MXN",
+            "image": "",
+            "id_categoria": null,
+            "category_name": "Servicios"
+        },
+        {
+            "id": 13,
+            "name": "Terapia de Liberacion Angelical",
+            "description": "Sesion profunda para liberar patrones, miedos, memorias y ataduras emocionales con la asistencia de la energia angelical.",
+            "price": 0,
+            "currency": "MXN",
+            "image": "",
+            "id_categoria": null,
+            "category_name": "Servicios"
+        },
+        {
+            "id": 14,
+            "name": "Liberacion de miedos",
+            "description": "Desapego",
+            "price": 0,
+            "currency": "MXN",
+            "image": "",
+            "id_categoria": null,
+            "category_name": "Servicios"
+        },
+        {
+            "id": 15,
+            "name": "Los Angeles y sus Colores",
+            "description": "Interpretacion y significado de los rayos de luz y colores angelicos para comprender la vibracion, mensajes y sanacion que cada tonalidad trae.",
+            "price": 0,
+            "currency": "MXN",
+            "image": "",
+            "id_categoria": null,
+            "category_name": "Servicios"
+        }
+    ]
+}

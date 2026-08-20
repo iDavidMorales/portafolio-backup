@@ -1,0 +1,28 @@
+[
+    {
+        "id": "note_don_mario_menu_order_20260813",
+        "folio": "WEB-20260813-DM-ORDEN",
+        "note": "Ordenar mejor los productos del sitio Don Mario por orden alfabetico dentro de su tag o categoria.",
+        "author": "terminal",
+        "created_at": "2026-08-13T22:58:59-05:00",
+        "status": "done",
+        "origen": "codex",
+        "respuesta_requerida": false,
+        "respuesta_estado": "respondida",
+        "reply_to": "",
+        "agente": "Codex",
+        "categoria": "sitios-web",
+        "tags": [
+            "don-mario",
+            "menu",
+            "catalogo"
+        ],
+        "jarvis_response": {
+            "text": "Se ordeno el catalogo del sitio Don Mario por categoria/tag y despues alfabeticamente por producto. El ajuste aplica al menu local, a los productos cargados desde la API remota y a la vista compacta de mesero sin cambiar IDs de productos ni romper pedidos existentes.",
+            "created_at": "2026-08-13T22:58:59-05:00",
+            "status": "done"
+        },
+        "updated_at": "2026-08-13T22:58:59-05:00",
+        "completed_at": "2026-08-13T22:58:59-05:00"
+    }
+]

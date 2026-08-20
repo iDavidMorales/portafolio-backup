@@ -1,0 +1,10 @@
+.assetsignore
+*.zip
+*.tar
+*.gz
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.psd
+*.iso

@@ -1,0 +1,26 @@
+{
+    "meta": {
+        "format": "routicket-site-config",
+        "version": 1,
+        "updated_at": "2026-08-06T08:02:10+00:00"
+    },
+    "site": {
+        "business_name": "Abarrotes Memo",
+        "template_key": "rappi-menu"
+    },
+    "data": {
+        "feed_url": "https://routicket.com/negocios/abarrotes-memo/feed.php"
+    },
+    "settings": {
+        "headline": "Abarrotes Memo",
+        "subheadline": "Venta de productos de abarrotes",
+        "logo": "https://i.imgur.com/VwWVyxe.jpeg",
+        "accent": "#007ecc",
+        "secondary": "#ffffff",
+        "yellow": "#ff0000"
+    },
+    "store": {
+        "name": "Abarrotes Memo",
+        "status": "published"
+    }
+}

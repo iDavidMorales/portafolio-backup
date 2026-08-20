@@ -1,0 +1,54 @@
+{
+  "meta": {
+    "format": "routicket-site-config",
+    "version": 1,
+    "updated_at": "2026-08-03T00:00:00-05:00",
+    "notes": "Config editable para renderizar La Paipa Shop con plantillas Routicket sin tocar VirtualHost."
+  },
+  "site": {
+    "business_name": "La Paipa Shop",
+    "template_key": "smokeshop"
+  },
+  "data": {
+    "source_type": "rss-routicket",
+    "feed_url": "https://routicket.com/negocios/lapaipashop/proxy_bong.php",
+    "store_api_url": "",
+    "id_tienda": 0,
+    "priority": [
+      "products",
+      "feed_url",
+      "store_api_url",
+      "local_screen"
+    ]
+  },
+  "store": {
+    "name": "La Paipa Shop",
+    "url": "https://routicket.com/negocios/lapaipashop/",
+    "currency": "MXN",
+    "logo": "https://i.imgur.com/dhr3mRv.png",
+    "photo": "https://i.imgur.com/dhr3mRv.png",
+    "phone": "",
+    "address": "",
+    "status": "published"
+  },
+  "settings": {
+    "accent": "#00C2CB",
+    "secondary": "#8BC34A",
+    "headline": "La Paipa Shop",
+    "subheadline": "Catalogo visual conectado a productos Bong.Mx mediante proxy Routicket.",
+    "logo": "https://i.imgur.com/dhr3mRv.png",
+    "whatsapp": "",
+    "age_notice": "Consulta disponibilidad antes de comprar. Productos cargados desde el feed conectado.",
+    "template_lab": {
+      "enabled": true,
+      "editable_file": "rtk-site.json",
+      "allowed_templates": [
+        "catalog-grid",
+        "kiosk-screen",
+        "promo-screen",
+        "restaurant-menu"
+      ]
+    }
+  },
+  "products": []
+}

@@ -1,0 +1,32 @@
+[
+    {
+        "id": "note_6a743af87fa9f9.85685792",
+        "note": "falta agregar informacion sobre el hollywood laser peel porque solo hay informacion de los tatuajes y no de los faciles que manejamos. y tambien quiero añadir informacion sobre los cuidados posteriores al tratamiento laser para cuidarse la piel.",
+        "author": "31",
+        "created_at": "2026-08-06T07:42:48+00:00",
+        "status": "done",
+        "reply_to": "",
+        "jarvis_response": {
+            "text": "Nota revisada y cerrada como duplicada/resuelta: QuitaTattoo ya muestra una seccion especial de cuidados posteriores al tratamiento laser desde la plantilla restaurant-menu.php cuando el slug es quitatattoo. La seccion incluye frecuencia aproximada de citas, mantener la zona protegida y limpia, evitar agua/polvo/friccion/riesgo de infeccion, no aplicar productos salvo indicacion del especialista y aviso de seguir instrucciones personalizadas.",
+            "created_at": "2026-08-13T23:09:00-05:00",
+            "status": "done"
+        },
+        "updated_at": "2026-08-13T23:09:00-05:00",
+        "completed_at": "2026-08-13T23:09:00-05:00"
+    },
+    {
+        "id": "note_6a7954242eefc3.06188470",
+        "note": "quisiera agregar mas informacion sobre el hollywood laser peel, sobre los cuidados posteriores del tratamiento. y las recomendaciones antes de iniciar el tratamiento. agregar como productos como notas o como articulos en el sitio generar su propia plantilla o agregar un apartado a la plantilla para administrar esa seccion",
+        "author": "31",
+        "created_at": "2026-08-10T04:31:32+00:00",
+        "status": "done",
+        "reply_to": "",
+        "jarvis_response": {
+            "text": "Aviso de actualizacion: la seccion de cuidados posteriores al tratamiento laser ya fue incorporada al diseño personalizado de QuitaTattoo. La guia indica que las citas se realizan aproximadamente cada 4 semanas, siempre de acuerdo con la valoracion del especialista. Como cuidados principales: mantener la zona protegida y limpia, evitar agua, polvo, friccion y cualquier situacion que pueda favorecer una infeccion. No se recomienda aplicar cremas, pomadas ni otros productos sobre la zona salvo indicacion expresa del especialista. La informacion es general y no sustituye las instrucciones clinicas personalizadas.",
+            "created_at": "2026-08-10T19:24:40+00:00",
+            "status": "done"
+        },
+        "updated_at": "2026-08-10T19:24:40+00:00",
+        "completed_at": "2026-08-10T19:24:40+00:00"
+    }
+]
