@@ -1,0 +1,512 @@
+{
+    "meta": {
+        "format": "routicket-site-config",
+        "version": 1,
+        "updated_at": "2026-08-06T02:53:16+02:00"
+    },
+    "site": {
+        "business_name": "El Caracol Blanco",
+        "template_key": "existing"
+    },
+    "data": {
+        "local_products": true,
+        "api_kind": "local-config"
+    },
+    "settings": {
+        "accent": "#00C2CB",
+        "secondary": "#8BC34A",
+        "headline": "El Caracol Blanco",
+        "logo": "https://i.imgur.com/nQVsjYM.png",
+        "whatsapp": "9842469455"
+    },
+    "store": {
+        "name": "El Caracol Blanco",
+        "status": "published"
+    },
+    "products": [
+        {
+            "id": 1,
+            "name": "Guacamole Tradicional",
+            "description": "Guacamole fresco preparado al momento con aguacate de primera calidad.",
+            "price": 115,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 1,
+            "category_name": "Entradas"
+        },
+        {
+            "id": 2,
+            "name": "Guacamole con Camarones Molcajete",
+            "description": "Guacamole en molcajete coronado con camarones preparados en su punto.",
+            "price": 195,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 1,
+            "category_name": "Entradas"
+        },
+        {
+            "id": 3,
+            "name": "Guacamole con Pulpo Frito Molcajete",
+            "description": "Delicioso contraste de textura con pulpo crujiente frito sobre guacamole.",
+            "price": 210,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 1,
+            "category_name": "Entradas"
+        },
+        {
+            "id": 4,
+            "name": "Nachos con Camarones",
+            "description": "Totopos crujientes con camarones jugosos, frijoles y delicioso queso fundido.",
+            "price": 195,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 1,
+            "category_name": "Entradas"
+        },
+        {
+            "id": 5,
+            "name": "Nachos Naturales (Sin camarón)",
+            "description": "Totopos clásicos con frijol, aderezo y queso fundido.",
+            "price": 165,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 1,
+            "category_name": "Entradas"
+        },
+        {
+            "id": 6,
+            "name": "Queso Fundido con Camarones",
+            "description": "Mezcla de quesos gratinados acompañados con camarones al sartén.",
+            "price": 185,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 1,
+            "category_name": "Entradas"
+        },
+        {
+            "id": 7,
+            "name": "Camarones Fritos (Con o sin ajo - 200gr)",
+            "description": "Camarones fritos a la perfección acompañados de aderezo.",
+            "price": 175,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 1,
+            "category_name": "Entradas"
+        },
+        {
+            "id": 8,
+            "name": "Papas Fritas Orden",
+            "description": "Crujientes papas fritas saladas.",
+            "price": 95,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 1,
+            "category_name": "Entradas"
+        },
+        {
+            "id": 9,
+            "name": "Ceviche de Camarón (Mediano)",
+            "description": "Camarones marinados en limón fresco con tomate, cebolla y cilantro.",
+            "price": 275,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 2,
+            "category_name": "Ceviches"
+        },
+        {
+            "id": 10,
+            "name": "Ceviche de Camarón (Grande)",
+            "description": "Porción generosa de ceviche de camarón.",
+            "price": 345,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 2,
+            "category_name": "Ceviches"
+        },
+        {
+            "id": 11,
+            "name": "Ceviche de Camarón (Jumbo)",
+            "description": "La porción más grande de ceviche de camarón de la casa.",
+            "price": 545,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 2,
+            "category_name": "Ceviches"
+        },
+        {
+            "id": 12,
+            "name": "Ceviche de Pulpo (Mediano)",
+            "description": "Pulpo fresco cortado finamente y marinado con limón fresco.",
+            "price": 295,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 2,
+            "category_name": "Ceviches"
+        },
+        {
+            "id": 13,
+            "name": "Ceviche de Pulpo (Grande)",
+            "description": "Generoso ceviche de pulpo.",
+            "price": 375,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 2,
+            "category_name": "Ceviches"
+        },
+        {
+            "id": 14,
+            "name": "Ceviche de Pulpo (Jumbo)",
+            "description": "El rey de los ceviches de pulpo en formato para compartir.",
+            "price": 610,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 2,
+            "category_name": "Ceviches"
+        },
+        {
+            "id": 15,
+            "name": "Ceviche Cozumel (Mediano)",
+            "description": "Nuestra receta especial con los mejores mariscos locales de Cozumel.",
+            "price": 310,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 2,
+            "category_name": "Ceviches"
+        },
+        {
+            "id": 16,
+            "name": "Ceviche Cozumel (Grande)",
+            "description": "Nuestra especialidad en tamaño grande.",
+            "price": 385,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 2,
+            "category_name": "Ceviches"
+        },
+        {
+            "id": 17,
+            "name": "Ceviche Cozumel (Jumbo)",
+            "description": "Ceviche Cozumel monumental para los verdaderos amantes del marisco.",
+            "price": 610,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 2,
+            "category_name": "Ceviches"
+        },
+        {
+            "id": 18,
+            "name": "Cóctel de Camarón (Mediano)",
+            "description": "Tradicional cóctel con salsa preparada, cilantro y cebolla.",
+            "price": 225,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 3,
+            "category_name": "Cócteles"
+        },
+        {
+            "id": 19,
+            "name": "Cóctel de Camarón (Grande)",
+            "description": "El clásico cóctel en tamaño grande.",
+            "price": 295,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 3,
+            "category_name": "Cócteles"
+        },
+        {
+            "id": 20,
+            "name": "Cóctel Caracol Blanco (Mediano)",
+            "description": "Exclusivo coctel de caracol blanco fresco marinado.",
+            "price": 255,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 3,
+            "category_name": "Cócteles"
+        },
+        {
+            "id": 21,
+            "name": "Cóctel Caracol Blanco (Grande)",
+            "description": "Coctel de caracol blanco selecto en formato grande.",
+            "price": 325,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 3,
+            "category_name": "Cócteles"
+        },
+        {
+            "id": 22,
+            "name": "Aguachile Camarón (Mediano)",
+            "description": "Camarones frescos curtidos en limón con pepino, cebolla morada y la salsa de su elección.",
+            "price": 225,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 4,
+            "category_name": "Aguachiles"
+        },
+        {
+            "id": 23,
+            "name": "Aguachile Camarón (Grande)",
+            "description": "Nuestros aguachiles frescos en tamaño grande.",
+            "price": 285,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 4,
+            "category_name": "Aguachiles"
+        },
+        {
+            "id": 24,
+            "name": "Aguachile Mixto (Mediano)",
+            "description": "Combinación fresca de mariscos de temporada curtidos en limón.",
+            "price": 265,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 4,
+            "category_name": "Aguachiles"
+        },
+        {
+            "id": 25,
+            "name": "Aguachile Mixto (Grande)",
+            "description": "Combinación gigante de aguachile de mariscos.",
+            "price": 315,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 4,
+            "category_name": "Aguachiles"
+        },
+        {
+            "id": 26,
+            "name": "Piña Rellena de Mariscos Gratinada",
+            "description": "Maravillosa combinación de camarón, pulpo, mejillón y calamar gratinados con queso fundido.",
+            "price": 395,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 5,
+            "category_name": "Especiales de la Casa"
+        },
+        {
+            "id": 27,
+            "name": "Molcajete Mar y Tierra (1 a 2 pers.)",
+            "description": "Combinación de mariscos, arrachera, pechuga de pollo, queso panela, nopales y cebollas.",
+            "price": 495,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 5,
+            "category_name": "Especiales de la Casa"
+        },
+        {
+            "id": 28,
+            "name": "Molcajete Mar y Tierra (3 a 4 pers.)",
+            "description": "Porción monumental ideal para compartir entre familias o amigos.",
+            "price": 625,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 5,
+            "category_name": "Especiales de la Casa"
+        },
+        {
+            "id": 29,
+            "name": "Cazuela de Mariscos",
+            "description": "Variedad de mariscos cocinados lentamente con especias y caldo aromático.",
+            "price": 225,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 5,
+            "category_name": "Especiales de la Casa"
+        },
+        {
+            "id": 30,
+            "name": "Camarones Momia",
+            "description": "Camarones gigantes rellenos, envueltos en tocino crujiente y fritos a la perfección.",
+            "price": 295,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 6,
+            "category_name": "Los Camarones"
+        },
+        {
+            "id": 31,
+            "name": "Camarones al Tequila",
+            "description": "Flameados al tequila reposado con un toque sutil de crema y ajo.",
+            "price": 275,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 6,
+            "category_name": "Los Camarones"
+        },
+        {
+            "id": 32,
+            "name": "Camarones al Coco",
+            "description": "Empanizados con coco rallado natural, acompañados de salsa dulce o mil islas.",
+            "price": 310,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 6,
+            "category_name": "Los Camarones"
+        },
+        {
+            "id": 33,
+            "name": "Camarones al Mojo de Ajo",
+            "description": "Salteados con abundante ajo dorado en mantequilla fina de la casa.",
+            "price": 235,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 6,
+            "category_name": "Los Camarones"
+        },
+        {
+            "id": 34,
+            "name": "Pulpo al Tequila",
+            "description": "Tierno pulpo cocinado y flameado con tequila reposado.",
+            "price": 295,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 7,
+            "category_name": "Los Pulpos"
+        },
+        {
+            "id": 35,
+            "name": "Pulpo al Mojo de Ajo",
+            "description": "Piezas tiernas de pulpo salteadas en mantequilla perfumada con ajo.",
+            "price": 295,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 7,
+            "category_name": "Los Pulpos"
+        },
+        {
+            "id": 36,
+            "name": "Pulpo a la Diabla",
+            "description": "Bañado en nuestra espectacular salsa de chiles rojos picantes seleccionados.",
+            "price": 295,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 7,
+            "category_name": "Los Pulpos"
+        },
+        {
+            "id": 37,
+            "name": "Filete de Pescado al Mojo de Ajo",
+            "description": "Filete fresco salteado con mantequilla fina y ajos dorados.",
+            "price": 225,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 8,
+            "category_name": "Filetes de Pescado"
+        },
+        {
+            "id": 38,
+            "name": "Filete de Pescado Empapelado",
+            "description": "Cocinado al vapor en su propio jugo con verduras frescas y especias finas.",
+            "price": 225,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 8,
+            "category_name": "Filetes de Pescado"
+        },
+        {
+            "id": 39,
+            "name": "Tacos Gobernador (Orden 3 pz)",
+            "description": "Clásicos tacos con camarón, cebolla y pimientos dorados sobre queso derretido.",
+            "price": 185,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 9,
+            "category_name": "Tacos"
+        },
+        {
+            "id": 40,
+            "name": "Tacos de Camarón Capeado (Orden 3 pz)",
+            "description": "Tacos estilo Ensenada con camarón capeado crujiente.",
+            "price": 185,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 9,
+            "category_name": "Tacos"
+        },
+        {
+            "id": 41,
+            "name": "Refrescos (Variedad)",
+            "description": "Coca Cola, Manzanita, Fanta, Sprite.",
+            "price": 45,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 10,
+            "category_name": "Bebidas"
+        },
+        {
+            "id": 42,
+            "name": "Limonada Natural",
+            "description": "Preparada al momento con limones reales.",
+            "price": 50,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 10,
+            "category_name": "Bebidas"
+        },
+        {
+            "id": 43,
+            "name": "Caguamón 1.2L (XX, Tecate, Indio)",
+            "description": "Gran cerveza ideal para refrescarte del calor caribeño.",
+            "price": 120,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 10,
+            "category_name": "Bebidas"
+        },
+        {
+            "id": 44,
+            "name": "Piña Colada con Alcohol",
+            "description": "Con ron, crema de coco y jugo de piña.",
+            "price": 95,
+            "currency": "MXN",
+            "image": "",
+            "fallbackImage": "",
+            "id_categoria": 10,
+            "category_name": "Bebidas"
+        }
+    ]
+}

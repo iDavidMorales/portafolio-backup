@@ -1,0 +1,6 @@
+<?php
+declare(strict_types=1);
+
+$rtkSiteSlug = 'routicket-play';
+$rtkTemplateOverride = 'kiosk-screen';
+require __DIR__ . '/../../vhost/render_site.php';

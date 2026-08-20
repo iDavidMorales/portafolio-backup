@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#8f1f17">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Don Mario · Mesero</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon-180x180.png">
+  <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon.png">
+  <link rel="manifest" href="rtk-site.webmanifest">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Great+Vibes&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            vino: '#8f1f17',
+            rosso: '#b7352a',
+            oliva: '#3f6212',
+            crema: '#fbf7ee',
+            tinta: '#292524',
+            oro: '#c8963e'
+          },
+          fontFamily: {
+            display: ['Allura', 'Great Vibes', 'cursive'],
+            sans: ['Lato', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    :root{color-scheme:light}
+    body{background:radial-gradient(circle at 8% 0%,rgba(200,150,62,.16),transparent 26rem),radial-gradient(circle at 100% 0%,rgba(143,31,23,.12),transparent 24rem),#fbf7ee}
+    .toast{transform:translate(-50%,120%);opacity:0;transition:.22s ease}
+    .toast.show{transform:translate(-50%,0);opacity:1}
+    video{transform:scaleX(-1)}
+    body.rtk-site-loading{overflow:hidden}
+    .rtk-root-preloader{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:linear-gradient(135deg,#5d120d,#8f1f17 58%,#c8963e);color:#fff;transition:opacity .38s ease,visibility .38s ease}
+    .rtk-root-preloader.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+    .rtk-root-preloader-card{width:min(340px,calc(100vw - 42px));display:grid;justify-items:center;gap:14px;text-align:center;padding:26px}
+    .rtk-root-preloader-logo{width:96px;height:96px;border-radius:24px;object-fit:contain;background:#fff;padding:10px;box-shadow:0 20px 48px rgba(0,0,0,.28)}
+    .rtk-root-preloader-kicker{margin:0;color:rgba(255,255,255,.74);font-size:11px;font-weight:900;letter-spacing:.28em;text-transform:uppercase}
+     .rtk-root-preloader-title{margin:0;font-family:'Allura','Great Vibes',cursive;font-size:clamp(2.35rem,9vw,3.75rem);line-height:.98;font-weight:400;letter-spacing:0;text-shadow:0 12px 28px rgba(0,0,0,.24)}
+    .rtk-root-preloader-bar{width:min(18rem,72vw);height:10px;border-radius:999px;background:rgba(255,255,255,.22);overflow:hidden}
+    .rtk-root-preloader-fill{display:block;width:48%;height:100%;border-radius:999px;background:linear-gradient(90deg,#c8963e,#fff);animation:rtkRootLoad 1s ease-in-out infinite}
+    @keyframes rtkRootLoad{0%{transform:translateX(-115%)}100%{transform:translateX(230%)}}
+  </style>
+</head>
+<body class="font-sans text-tinta min-h-screen pb-24 rtk-site-loading">
+  <div id="rtkRootPreloader" class="rtk-root-preloader" role="status" aria-live="polite">
+    <div class="rtk-root-preloader-card">
+      <img class="rtk-root-preloader-logo" src="apple-touch-icon-180x180.png" alt="Don Mario">
+      <div>
+        <p class="rtk-root-preloader-kicker">Cargando mesero</p>
+        <h1 class="rtk-root-preloader-title">Don Mario</h1>
+      </div>
+      <div class="rtk-root-preloader-bar" aria-hidden="true"><i class="rtk-root-preloader-fill"></i></div>
+    </div>
+  </div>
+  <header class="bg-vino text-white sticky top-0 z-20 shadow-lg">
+    <div class="max-w-3xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
+      <a href="index.html" class="w-10 h-10 rounded-full bg-white/10 grid place-items-center" aria-label="Volver al menu"><i class="fa-solid fa-chevron-left"></i></a>
+      <div class="flex-1 min-w-0">
+        <p class="text-[9px] uppercase tracking-[.3em] text-white/65">Don Mario</p>
+        <h1 class="font-display text-2xl leading-none">Vista mesero</h1>
+      </div>
+      <button id="scanTopBtn" class="w-10 h-10 rounded-full bg-white/10 grid place-items-center" aria-label="Escanear QR"><i class="fa-solid fa-qrcode"></i></button>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-4 py-5">
+    <section id="readerPanel" class="bg-white/90 border border-stone-200 rounded-3xl p-5 shadow-sm">
+      <p class="text-oliva text-[10px] uppercase tracking-[.28em] font-black">Scanner</p>
+      <h2 class="font-display text-4xl text-vino mt-1">Leer pedido</h2>
+      <p class="text-sm text-stone-600 mt-2">Escanea el QR del cliente o pega la URL del pedido para ver el desglose.</p>
+
+      <div id="cameraBox" class="hidden mt-4 overflow-hidden rounded-2xl bg-stone-900">
+        <video id="video" class="w-full aspect-[4/3] object-cover" playsinline muted></video>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4">
+        <button id="scanBtn" class="bg-vino hover:bg-rosso text-white rounded-xl py-3 font-black"><i class="fa-solid fa-camera mr-2"></i>Escanear con camara</button>
+        <button id="stopBtn" class="bg-stone-900 text-white rounded-xl py-3 font-black hidden"><i class="fa-solid fa-stop mr-2"></i>Detener</button>
+      </div>
+
+      <div class="mt-4">
+        <label class="text-[10px] uppercase tracking-[.22em] text-stone-500 font-black" for="manualInput">URL o token</label>
+        <textarea id="manualInput" class="mt-2 w-full min-h-24 rounded-2xl border border-stone-200 px-4 py-3 text-sm outline-none focus:border-vino" placeholder="Pega aqui el QR o la URL ?pedido=..."></textarea>
+        <button id="manualBtn" class="mt-2 w-full border-2 border-vino text-vino rounded-xl py-3 font-black"><i class="fa-solid fa-magnifying-glass mr-2"></i>Ver pedido</button>
+      </div>
+    </section>
+
+    <section id="shiftPanel" class="mt-5 bg-white/90 border border-stone-200 rounded-3xl p-5 shadow-sm">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <p class="text-oliva text-[10px] uppercase tracking-[.28em] font-black">Turno local</p>
+          <h2 class="font-display text-3xl text-vino mt-1">Control del dia</h2>
+        </div>
+        <button id="copyDayBtn" class="rounded-full bg-stone-900 text-white w-10 h-10 grid place-items-center" aria-label="Copiar corte del dia"><i class="fa-solid fa-copy"></i></button>
+      </div>
+      <label class="block mt-4 text-[10px] uppercase tracking-[.22em] text-stone-500 font-black" for="waiterName">Mesero</label>
+      <input id="waiterName" class="mt-2 w-full rounded-2xl border border-stone-200 px-4 py-3 text-sm outline-none focus:border-vino" placeholder="Nombre del mesero">
+      <div class="grid grid-cols-3 gap-2 mt-4">
+        <div class="rounded-2xl bg-crema border border-stone-200 p-3">
+          <p class="text-[10px] uppercase tracking-wide text-stone-500 font-black">Pedidos</p>
+          <strong id="dayOrders" class="text-2xl text-vino">0</strong>
+        </div>
+        <div class="rounded-2xl bg-crema border border-stone-200 p-3">
+          <p class="text-[10px] uppercase tracking-wide text-stone-500 font-black">Piezas</p>
+          <strong id="dayItems" class="text-2xl text-vino">0</strong>
+        </div>
+        <div class="rounded-2xl bg-crema border border-stone-200 p-3">
+          <p class="text-[10px] uppercase tracking-wide text-stone-500 font-black">Vendido</p>
+          <strong id="dayTotal" class="text-xl text-vino">$0</strong>
+        </div>
+      </div>
+      <div id="daySalesList" class="mt-4 space-y-2"></div>
+      <p class="mt-3 text-[11px] text-stone-500 leading-relaxed">Este control se guarda solo en este telefono o tablet. No reemplaza el panel central.</p>
+    </section>
+
+    <section id="orderPanel" class="hidden mt-5 bg-white border border-stone-200 rounded-3xl shadow-sm overflow-hidden">
+      <div class="bg-vino text-white p-5">
+        <p class="text-[10px] uppercase tracking-[.28em] text-white/65">Ordine</p>
+        <div class="flex items-end justify-between gap-3">
+          <h2 id="folioTitle" class="font-display text-4xl">Pedido</h2>
+          <span id="itemCount" class="bg-white/12 rounded-full px-3 py-1 text-xs font-black"></span>
+        </div>
+      </div>
+      <div id="itemsList" class="p-4 space-y-3"></div>
+      <div id="deliveryBox" class="hidden mx-4 mb-4 bg-green-50 border border-green-200 rounded-2xl p-4 text-sm text-green-950"></div>
+      <div class="px-4 pb-4">
+        <div class="flex justify-between items-end border-t border-stone-200 pt-4">
+          <div>
+            <p class="text-xs text-stone-500">Total estimado</p>
+            <p class="text-[10px] text-stone-400">Validar cambios con el cliente</p>
+          </div>
+          <strong id="totalText" class="font-display text-4xl text-vino">$0.00</strong>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4">
+          <button id="copyBtn" class="bg-stone-900 text-white rounded-xl py-3 font-black"><i class="fa-solid fa-copy mr-2"></i>Copiar resumen</button>
+          <a href="pedidos.html" class="border-2 border-vino text-vino rounded-xl py-3 font-black text-center"><i class="fa-solid fa-list-check mr-2"></i>Panel pedidos</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast fixed bottom-5 left-1/2 bg-stone-900 text-white px-5 py-3 rounded-full shadow-xl z-30 flex items-center gap-2 pointer-events-none">
+    <i class="fa-solid fa-circle-info text-oro"></i><span id="toastText" class="text-sm"></span>
+  </div>
+
+  <script>
+    (function(){
+      const started = performance.now();
+      const loader = document.getElementById('rtkRootPreloader');
+      let done = false;
+      function finish(){
+        if (done) return;
+        done = true;
+        const wait = Math.max(0, 6000 - (performance.now() - started));
+        setTimeout(function(){
+          document.body.classList.remove('rtk-site-loading');
+          if (loader) loader.classList.add('is-hidden');
+        }, wait);
+      }
+      window.addEventListener('load', finish, {once:true});
+      setTimeout(finish, 6000);
+    })();
+
+    const menuData = [
+      {id:1,category:'Entradas',name:'Bruschetta (4 pz)',price:80},
+      {id:2,category:'Entradas',name:'Focaccia Parma',price:140},
+      {id:3,category:'Entradas',name:'Prosciutto e Melone',price:140},
+      {id:4,category:'Entradas',name:'Calamari Fritti',price:170},
+      {id:5,category:'Entradas',name:'Carpaccio',price:180},
+      {id:6,category:'Sopas',name:'Cioppino Italian Seafood',price:180},
+      {id:7,category:'Ensaladas',name:'Mixta',price:110},
+      {id:8,category:'Ensaladas',name:'Caprese',price:140},
+      {id:9,category:'Ensaladas',name:'Griega',price:140},
+      {id:10,category:'Ensaladas',name:'Don Mario',price:170},
+      {id:11,category:'Pastas',name:'Spaghetti Aglio Olio',price:140},
+      {id:12,category:'Pastas',name:'Spaghetti Pomodoro',price:160},
+      {id:13,category:'Pastas',name:'Penne Arrabbiata',price:170},
+      {id:14,category:'Pastas',name:'Spaghetti Carbonara',price:180},
+      {id:15,category:'Pastas',name:'Fettuccine Alfredo',price:180},
+      {id:16,category:'Pastas',name:'Penne 4 Formaggi',price:210},
+      {id:17,category:'Pastas',name:'Linguine Scoglio',price:260},
+      {id:18,category:'Pastas',name:"Fettuccine all'Aragosta",price:330},
+      {id:19,category:'Gnocchi/Ravioli',name:'Gnocchi Bolognese',price:180},
+      {id:20,category:'Gnocchi/Ravioli',name:'Ravioli 4 Formaggi',price:190},
+      {id:21,category:'Gnocchi/Ravioli',name:'Lasagna Meat',price:190},
+      {id:22,category:'Pizzas',name:'Margherita',price:140},
+      {id:23,category:'Pizzas',name:'Prosciutto',price:160},
+      {id:24,category:'Pizzas',name:'Diavolina',price:170},
+      {id:25,category:'Pizzas',name:'Hawaiana',price:170},
+      {id:26,category:'Pizzas',name:'4 Stagioni',price:190},
+      {id:27,category:'Pizzas',name:'Calzone Farcito',price:190},
+      {id:28,category:'Pizzas',name:'Don Mario',price:240},
+      {id:29,category:'Carnes',name:'Pollo Valdostano',price:260},
+      {id:30,category:'Carnes',name:'Arrachera (Angus)',price:330},
+      {id:31,category:'Carnes',name:'Rib-Eye (Angus)',price:410},
+      {id:32,category:'Carnes',name:'Mixed Grill Platter',price:950},
+      {id:33,category:'Mariscos',name:'Filete de Mero',price:180},
+      {id:34,category:'Mariscos',name:'Salmon',price:330},
+      {id:35,category:'Mariscos',name:'Camarones',price:350},
+      {id:36,category:'Mariscos',name:'Mixed Seafood Platter',price:990},
+      {id:37,category:'Bebidas',name:'Limonada / Naranjada',price:30},
+      {id:38,category:'Bebidas',name:'Cerveza XX Lager',price:50},
+      {id:39,category:'Bebidas',name:'Sangria',price:90},
+      {id:40,category:'Bebidas',name:'Aperol Spritz',price:120},
+      {id:41,category:'Bebidas',name:'Margarita',price:120},
+      {id:42,category:'Bebidas',name:'Carajillo / Licor 43',price:110}
+    ];
+    const menuSortCollator = new Intl.Collator('es-MX', {sensitivity:'base', numeric:true});
+    menuData.sort((a, b) =>
+      menuSortCollator.compare(a.category || '', b.category || '')
+      || menuSortCollator.compare(a.name || '', b.name || '')
+    );
+    const byId = new Map(menuData.map(item => [item.id, item]));
+    const money = amount => new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN'}).format(amount);
+    const WAITER_KEY = 'donMarioWaiterName';
+    const SALES_KEY = 'donMarioWaiterSales';
+    let stream = null;
+    let scanTimer = null;
+    let currentSummary = '';
+
+    function toast(message) {
+      const box = document.getElementById('toast');
+      document.getElementById('toastText').textContent = message;
+      box.classList.add('show');
+      setTimeout(() => box.classList.remove('show'), 1800);
+    }
+
+    function decodeToken(token) {
+      const normalized = String(token || '').replace(/-/g, '+').replace(/_/g, '/');
+      const padded = normalized + '='.repeat((4 - normalized.length % 4) % 4);
+      return JSON.parse(decodeURIComponent(escape(atob(padded))));
+    }
+
+    function payloadFromText(value) {
+      const raw = String(value || '').trim();
+      if (!raw) throw new Error('empty');
+      if (raw[0] === '{') return JSON.parse(raw);
+      try {
+        const url = new URL(raw, location.href);
+        const token = url.searchParams.get('pedido') || url.searchParams.get('p');
+        if (token) return decodeToken(token);
+      } catch {}
+      if (/^[A-Za-z0-9_-]{12,}$/.test(raw)) return decodeToken(raw);
+      throw new Error('invalid');
+    }
+
+    function readInitialPayload() {
+      const params = new URLSearchParams(location.search);
+      const token = params.get('pedido') || params.get('p');
+      if (!token) return null;
+      return decodeToken(token);
+    }
+
+    function renderOrder(payload) {
+      if (!payload || !Array.isArray(payload.items) || !payload.items.length) throw new Error('empty-order');
+      const lines = [];
+      const saleItems = [];
+      let count = 0;
+      let total = 0;
+      const rows = payload.items.map(entry => {
+        const id = Number(entry.id);
+        const q = Math.max(1, Number(entry.q || entry.count || 1));
+        const product = byId.get(id) || {name:'Producto #' + id, category:'Sin categoria', price:0};
+        const subtotal = product.price * q;
+        count += q;
+        total += subtotal;
+        saleItems.push({id, q, name: product.name, category: product.category, price: product.price, subtotal});
+        lines.push(`${q}x ${product.name} - ${money(subtotal)}`);
+        return `<article class="flex gap-3 rounded-2xl border border-stone-200 bg-stone-50 p-3">
+          <span class="w-10 h-10 rounded-full bg-vino text-white font-black grid place-items-center">${q}</span>
+          <div class="flex-1 min-w-0">
+            <div class="flex justify-between gap-3">
+              <h3 class="font-black">${escapeHtml(product.name)}</h3>
+              <strong>${money(subtotal)}</strong>
+            </div>
+            <p class="text-xs text-stone-500">${escapeHtml(product.category)} · ${money(product.price)} c/u</p>
+          </div>
+        </article>`;
+      }).join('');
+      document.getElementById('folioTitle').textContent = payload.folio || 'Pedido';
+      document.getElementById('itemCount').textContent = `${count} ${count === 1 ? 'pieza' : 'piezas'}`;
+      document.getElementById('itemsList').innerHTML = rows;
+      document.getElementById('totalText').textContent = money(total);
+      const delivery = payload.envio;
+      const deliveryBox = document.getElementById('deliveryBox');
+      if (delivery && delivery.lat && delivery.lng) {
+        const mapUrl = `https://maps.google.com/?q=${delivery.lat},${delivery.lng}`;
+        const address = deliveryAddressText(delivery);
+        deliveryBox.innerHTML = `<div class="font-black mb-1"><i class="fa-solid fa-location-dot mr-2"></i>Direccion de envio</div>
+          <div class="leading-relaxed">${escapeHtml(address)}</div>
+          <a class="inline-flex mt-2 font-bold underline" target="_blank" rel="noopener" href="${mapUrl}">Abrir mapa</a>`;
+        deliveryBox.classList.remove('hidden');
+        lines.push(`ENVIO: ${address}`);
+        lines.push(`MAPA: ${mapUrl}`);
+      } else {
+        deliveryBox.classList.add('hidden');
+      }
+      currentSummary = [`DON MARIO · ${payload.folio || 'PEDIDO'}`, ...lines, `TOTAL: ${money(total)}`].join('\n');
+      saveScannedSale(payload, {items: saleItems, count, total, summary: currentSummary});
+      document.getElementById('orderPanel').classList.remove('hidden');
+      document.getElementById('orderPanel').scrollIntoView({behavior:'smooth', block:'start'});
+      toast('Pedido listo');
+    }
+
+    function escapeHtml(value) {
+      const node = document.createElement('div');
+      node.textContent = String(value ?? '');
+      return node.innerHTML;
+    }
+
+    function deliveryAddressText(delivery) {
+      const address = String(delivery?.address || '').trim();
+      if (address) return address;
+      if (delivery?.lat && delivery?.lng) return `${delivery.lat}, ${delivery.lng}`;
+      return 'Ubicacion marcada sin direccion escrita';
+    }
+
+    function todayKey(date = new Date()) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, '0');
+      const d = String(date.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    }
+
+    function waiterName() {
+      const value = String(document.getElementById('waiterName')?.value || '').trim();
+      return value || 'Sin nombre';
+    }
+
+    function readSales() {
+      try {
+        const data = JSON.parse(localStorage.getItem(SALES_KEY) || '[]');
+        return Array.isArray(data) ? data : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function writeSales(rows) {
+      localStorage.setItem(SALES_KEY, JSON.stringify(rows.slice(0, 500)));
+    }
+
+    function saveScannedSale(payload, detail) {
+      const folio = String(payload.folio || ('LOCAL-' + Date.now())).trim();
+      const waiter = waiterName();
+      const date = todayKey();
+      const rows = readSales();
+      const duplicate = rows.find(row => row.folio === folio && row.waiter === waiter);
+      if (duplicate) {
+        renderSalesControl();
+        toast('Pedido ya estaba en el control local');
+        return;
+      }
+      const delivery = payload.envio ? {
+        lat: payload.envio.lat || null,
+        lng: payload.envio.lng || null,
+        address: deliveryAddressText(payload.envio)
+      } : null;
+      rows.unshift({
+        folio,
+        waiter,
+        date,
+        scanned_at: new Date().toISOString(),
+        total: Number(detail.total || 0),
+        count: Number(detail.count || 0),
+        items: detail.items || [],
+        delivery,
+        summary: detail.summary || ''
+      });
+      writeSales(rows);
+      renderSalesControl();
+      toast('Pedido guardado en control local');
+    }
+
+    function renderSalesControl() {
+      const waiter = waiterName();
+      const today = todayKey();
+      const rows = readSales().filter(row => row.date === today && row.waiter === waiter);
+      const total = rows.reduce((sum, row) => sum + Number(row.total || 0), 0);
+      const pieces = rows.reduce((sum, row) => sum + Number(row.count || 0), 0);
+      document.getElementById('dayOrders').textContent = rows.length;
+      document.getElementById('dayItems').textContent = pieces;
+      document.getElementById('dayTotal').textContent = money(total);
+      const list = document.getElementById('daySalesList');
+      if (!rows.length) {
+        list.innerHTML = '<div class="rounded-2xl border border-dashed border-stone-300 p-4 text-center text-sm text-stone-500">Todavia no hay pedidos escaneados para este mesero hoy.</div>';
+        return;
+      }
+      list.innerHTML = rows.slice(0, 12).map(row => {
+        const time = new Date(row.scanned_at).toLocaleTimeString('es-MX', {hour:'2-digit', minute:'2-digit'});
+        return `<article class="rounded-2xl border border-stone-200 bg-stone-50 p-3">
+          <div class="flex justify-between gap-3">
+            <div>
+              <h3 class="font-black text-vino">${escapeHtml(row.folio)}</h3>
+              <p class="text-xs text-stone-500">${time} · ${Number(row.count || 0)} piezas</p>
+            </div>
+            <strong>${money(row.total || 0)}</strong>
+          </div>
+          <p class="text-xs text-stone-600 mt-2">${escapeHtml((row.items || []).map(item => `${item.q}x ${item.name}`).join(' · '))}</p>
+        </article>`;
+      }).join('');
+    }
+
+    function dayReportText() {
+      const waiter = waiterName();
+      const today = todayKey();
+      const rows = readSales().filter(row => row.date === today && row.waiter === waiter);
+      const total = rows.reduce((sum, row) => sum + Number(row.total || 0), 0);
+      const pieces = rows.reduce((sum, row) => sum + Number(row.count || 0), 0);
+      return [
+        `DON MARIO · CORTE LOCAL ${today}`,
+        `Mesero: ${waiter}`,
+        `Pedidos: ${rows.length}`,
+        `Piezas: ${pieces}`,
+        `Vendido: ${money(total)}`,
+        '',
+        ...rows.map(row => `${new Date(row.scanned_at).toLocaleTimeString('es-MX', {hour:'2-digit', minute:'2-digit'})} · ${row.folio} · ${money(row.total)} · ${(row.items || []).map(item => `${item.q}x ${item.name}`).join(', ')}`)
+      ].join('\n');
+    }
+
+    async function startScanner() {
+      if (!('BarcodeDetector' in window)) {
+        toast('Este navegador no tiene lector QR nativo. Pega la URL manualmente.');
+        return;
+      }
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});
+        const video = document.getElementById('video');
+        video.srcObject = stream;
+        await video.play();
+        document.getElementById('cameraBox').classList.remove('hidden');
+        document.getElementById('stopBtn').classList.remove('hidden');
+        const detector = new BarcodeDetector({formats:['qr_code']});
+        scanTimer = setInterval(async () => {
+          try {
+            const codes = await detector.detect(video);
+            if (!codes.length) return;
+            stopScanner();
+            const payload = payloadFromText(codes[0].rawValue || '');
+            renderOrder(payload);
+          } catch {}
+        }, 700);
+      } catch {
+        toast('No se pudo abrir la camara');
+      }
+    }
+
+    function stopScanner() {
+      if (scanTimer) clearInterval(scanTimer);
+      scanTimer = null;
+      if (stream) stream.getTracks().forEach(track => track.stop());
+      stream = null;
+      document.getElementById('cameraBox').classList.add('hidden');
+      document.getElementById('stopBtn').classList.add('hidden');
+    }
+
+    document.getElementById('scanBtn').addEventListener('click', startScanner);
+    document.getElementById('scanTopBtn').addEventListener('click', startScanner);
+    document.getElementById('stopBtn').addEventListener('click', stopScanner);
+    document.getElementById('manualBtn').addEventListener('click', () => {
+      try { renderOrder(payloadFromText(document.getElementById('manualInput').value)); }
+      catch { toast('QR o URL no valido'); }
+    });
+    document.getElementById('copyBtn').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(currentSummary);
+        toast('Resumen copiado');
+      } catch {
+        toast('No se pudo copiar');
+      }
+    });
+    document.getElementById('waiterName').value = localStorage.getItem(WAITER_KEY) || '';
+    document.getElementById('waiterName').addEventListener('input', event => {
+      localStorage.setItem(WAITER_KEY, event.target.value.trim());
+      renderSalesControl();
+    });
+    document.getElementById('copyDayBtn').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(dayReportText());
+        toast('Corte local copiado');
+      } catch {
+        toast('No se pudo copiar el corte');
+      }
+    });
+    renderSalesControl();
+
+    try {
+      const initial = readInitialPayload();
+      if (initial) renderOrder(initial);
+    } catch {
+      toast('Pedido no valido');
+    }
+  </script>
+</body>
+</html>

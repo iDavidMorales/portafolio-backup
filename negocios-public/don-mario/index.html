@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<link rel="icon" type="image/x-icon" href="/vhost/api/favicon.php?slug=don-mario">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#e10600">
+  <title>Don Mario · Cucina Italiana</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Great+Vibes&family=Cormorant+Garamond:wght@500;600;700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            vino: '#e10600',
+            rosso: '#ff4d00',
+            oliva: '#8b5e00',
+            crema: '#fff7df',
+            tinta: '#2a1a00',
+            oro: '#ffcc00'
+          },
+          fontFamily: {
+            display: ['Allura', 'Great Vibes', 'cursive'],
+            serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+            sans: ['Lato', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    :root { color-scheme: light; }
+    body {
+      background:
+        radial-gradient(circle at 10% 0%, rgba(255,204,0,.18), transparent 24rem),
+        radial-gradient(circle at 95% 8%, rgba(225,6,0,.14), transparent 24rem),
+        #fffaf0;
+    }
+    .paper {
+      background-color: rgba(255,255,255,.92);
+      background-image: repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(225,6,0,.03) 28px);
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { scrollbar-width: none; }
+    .toast { transform: translate(-50%, 120%); opacity: 0; transition: .25s ease; }
+    .toast.show { transform: translate(-50%, 0); opacity: 1; }
+    .leaf::before, .leaf::after { content: "❦"; color: #ffcc00; font-size: 18px; }
+    .leaf::before { margin-right: 12px; }
+    .leaf::after { margin-left: 12px; transform: scaleX(-1); display: inline-block; }
+    button:focus-visible { outline: 3px solid #ffcc00; outline-offset: 2px; }
+    body.menu-light { padding-bottom: 0; }
+    body.menu-light .order-only { display: none !important; }
+    body.is-loading { overflow: hidden; }
+    #preloader {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity .35s ease, visibility .35s ease;
+    }
+    #preloader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .preloader-bar {
+      width: min(18rem, 72vw);
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.18);
+      overflow: hidden;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.12);
+    }
+    .preloader-bar-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #ffcc00 0%, #fff7df 100%);
+      transition: width .18s linear;
+    }
+    .brand-logo {
+      width: 2.95rem;
+      height: 2.95rem;
+      border-radius: 0.9rem;
+      background: #fff;
+      padding: 0.28rem;
+      border: 1px solid rgba(255, 204, 0, .55);
+      box-shadow: 0 8px 20px rgba(0,0,0,.12);
+      object-fit: contain;
+      flex: 0 0 auto;
+    }
+    .footer-qr {
+      width: 132px;
+      height: 132px;
+      display: block;
+      object-fit: contain;
+      background: #fff;
+      border-radius: 1rem;
+    }
+    #menu-filters-shell.compact {
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+    #menu-heading {
+      max-height: 120px;
+      overflow: hidden;
+      transition: opacity .2s ease, max-height .25s ease, margin .25s ease, transform .25s ease;
+    }
+    #menu-heading.is-hidden {
+      max-height: 0;
+      opacity: 0;
+      margin-bottom: 0;
+      transform: translateY(-8px);
+      pointer-events: none;
+    }
+    .product-card {
+      min-height: 19.5rem;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+    .product-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 124px;
+      gap: 16px;
+      align-items: start;
+    }
+    .product-photo {
+      position: relative;
+      width: 124px;
+      aspect-ratio: 1 / 1;
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid rgba(200,150,62,.38);
+      background:
+        radial-gradient(circle at 30% 20%, rgba(200,150,62,.22), transparent 42%),
+        linear-gradient(135deg, rgba(143,31,23,.10), rgba(63,98,18,.10)),
+        rgba(255,255,255,.78);
+      display: grid;
+      place-items: center;
+      color: rgba(143,31,23,.62);
+    }
+    .product-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .product-photo i { font-size: 1.7rem; }
+    .product-gallery {
+      position: absolute;
+      left: 5px;
+      right: 5px;
+      bottom: 5px;
+      display: flex;
+      gap: 3px;
+      padding: 3px;
+      border-radius: .55rem;
+      background: rgba(0,0,0,.56);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .product-gallery::-webkit-scrollbar { display: none; }
+    .product-gallery-thumb {
+      width: 24px;
+      height: 24px;
+      flex: 0 0 24px;
+      object-fit: cover;
+      border: 1px solid rgba(255,255,255,.75);
+      border-radius: 4px;
+      background: #fff;
+    }
+    .product-desc {
+      min-height: 4.6rem;
+      display: flex;
+      align-items: center;
+    }
+    .product-bottom {
+      min-height: 2.7rem;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    body.menu-light .product-card { min-height: 18.2rem; }
+    #hero-subtitle{transition:opacity .4s ease, transform .4s ease;will-change:opacity,transform}
+    .promo-fade{animation:rtkPromoIn .6s cubic-bezier(.22,1,.36,1)}
+    @keyframes rtkPromoIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    @keyframes rtkCardIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+    .product-photo{overflow:hidden}
+    .product-photo img{transition:transform .8s cubic-bezier(.25,1,.3,1)}
+    .product-card:hover .product-photo img{transform:scale(1.07)}
+    .product-card:hover{transform:translateY(-2px)}
+    html{scroll-behavior:smooth}
+    .floating-cart{transition:transform .25s ease, box-shadow .25s ease}
+    .floating-cart:active{transform:scale(.96)}
+    .product-card{position:relative}
+    .product-card::before{
+      content:"";
+      position:absolute;
+      left:0;top:0;bottom:0;
+      width:5px;
+      border-radius:1rem 0 0 1rem;
+      background:var(--acc, #ffcc00);
+      opacity:.85;
+    }
+    .prod-title{font-family:'Allura','Great Vibes',cursive;font-weight:400;letter-spacing:0;text-wrap:balance;}
+    .prod-price{font-variant-numeric:tabular-nums;}
+    .hero-address{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;margin-top:1rem;padding:.65rem 1rem;border:1px solid rgba(255,204,0,.34);border-radius:999px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.9);font-size:.82rem;font-weight:800;box-shadow:0 10px 26px rgba(0,0,0,.18)}
+    .hero-address i{color:#ffcc00}
+    .cat-dot{display:inline-block;width:.55rem;height:.55rem;border-radius:999px;background:var(--acc,#ffcc00);margin-right:.35rem;vertical-align:2px;}
+    @media (max-width:520px){
+      .product-card::before{width:4px}
+    }
+    @media (max-width: 520px) {
+      .product-top { grid-template-columns: minmax(0, 1fr) 98px; }
+      .product-photo { width: 98px; }
+    }
+  </style>
+  <!-- RTK iOS Install Icon -->
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon-180x180.png">
+  <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon.png">
+  <link rel="manifest" href="rtk-site.webmanifest">
+</head>
+<body class="font-sans text-tinta min-h-screen pb-24 is-loading">
+  <div id="preloader" class="fixed inset-0 z-[100] grid place-items-center bg-vino text-white">
+    <div class="flex flex-col items-center text-center gap-4 px-6">
+      <img class="brand-logo" style="width:5.25rem;height:5.25rem;padding:0.38rem" src="https://i.imgur.com/hBJL051.jpeg" alt="Don Mario logo">
+      <div>
+        <p class="text-[10px] uppercase tracking-[.35em] text-white/70 mb-2">Cargando</p>
+        <h1 class="font-display text-5xl md:text-6xl leading-none text-white">Don Mario</h1>
+      </div>
+      <div class="flex flex-col items-center gap-2 mt-2">
+        <div class="preloader-bar" aria-hidden="true">
+          <div id="preloader-bar-fill" class="preloader-bar-fill"></div>
+        </div>
+        <p id="preloader-percent" class="text-[11px] font-black tracking-[.25em] text-white/80">0%</p>
+      </div>
+    </div>
+  </div>
+  <script>
+    const isMenuLight = new URLSearchParams(window.location.search).get('menu_light') === '1';
+    if (isMenuLight) document.body.classList.add('menu-light');
+  </script>
+  <header class="bg-vino text-white sticky top-0 z-40 shadow-lg border-b-4 border-oro">
+    <div class="max-w-6xl mx-auto px-4 py-2.5 flex justify-between items-center min-h-[4.25rem]">
+      <div class="flex items-center gap-3">
+        <img class="brand-logo" src="https://i.imgur.com/hBJL051.jpeg" alt="Don Mario logo">
+        <div>
+          <h1 class="font-display text-[1.7rem] leading-none tracking-wide text-white">Don Mario</h1>
+          <p class="text-[7px] uppercase tracking-[.26em] text-white/72 mt-0.5">Cucina italiana</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 order-only">
+        <a href="mesero.html" class="inline-flex items-center gap-2 rounded-full bg-white/10 hover:bg-white/20 px-3 sm:px-4 py-2 text-xs font-black uppercase tracking-[.08em] sm:tracking-[.12em]">
+          <i class="fa-solid fa-qrcode"></i> Mesero
+        </a>
+        <button onclick="toggleCart()" class="relative w-11 h-11 rounded-full bg-white/10 hover:bg-white/20" aria-label="Abrir orden">
+          <i class="fa-solid fa-basket-shopping text-xl"></i>
+          <span id="cart-badge" class="absolute -top-1 -right-1 bg-oro text-vino text-xs font-black rounded-full min-w-5 h-5 px-1 grid place-items-center hidden">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="bg-stone-900 text-white relative overflow-hidden">
+    <div class="pointer-events-none absolute inset-0 opacity-[.12]" style="background:radial-gradient(circle at 12% 20%, #ffcc00, transparent 22rem),radial-gradient(circle at 88% 30%, #e10600, transparent 26rem)"></div>
+    <div class="max-w-6xl mx-auto px-4 py-8 md:py-12 text-center relative">
+      <p class="text-oro uppercase text-[10px] font-bold tracking-[.35em] mb-2">Benvenuti a tavola</p>
+      <h2 class="font-display text-4xl md:text-6xl text-white">Sapori fatti con amore</h2>
+      <p id="hero-subtitle" class="text-white/70 mt-2 text-sm">Elige tus platillos y comparte la orden con tu mesero.</p>
+      <div class="leaf text-oro/70 text-lg mt-4" aria-hidden="true"></div>
+      <div class="hero-address"><i class="fa-solid fa-location-dot"></i> Playa del Carmen, Quintana Roo</div>
+    </div>
+  </section>
+
+  <nav class="bg-crema/95 backdrop-blur border-b border-stone-200 sticky top-[4.25rem] z-30">
+    <ul id="category-list" class="max-w-6xl mx-auto px-4 py-3 flex gap-2 overflow-x-auto no-scrollbar"></ul>
+  </nav>
+
+  <main class="max-w-6xl mx-auto px-4 py-8">
+    <div id="menu-filters-shell" class="sticky z-20 -mx-4 px-4 py-4 border-b border-stone-200 bg-[#fffaf0]/95 backdrop-blur transition-all duration-300" style="top: calc(4.25rem + 3rem);">
+      <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <div id="menu-heading" class="transition-all duration-300 shrink-0 text-left lg:text-left">
+          <p class="text-oliva font-bold uppercase tracking-[.25em] text-[10px]">La nostra selezione</p>
+          <h2 id="current-category-title" class="leaf font-display text-3xl md:text-4xl text-vino mt-1">Nuestro Menú</h2>
+        </div>
+      <div class="w-full lg:max-w-2xl lg:ml-auto">
+        <label for="menu-search" class="sr-only">Buscar platillos</label>
+        <div class="relative">
+          <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-oliva"></i>
+          <input
+            id="menu-search"
+            type="search"
+            placeholder="Buscar platillos, vinos, pizzas, pastas..."
+            class="w-full rounded-full border border-stone-200 bg-white py-3 pl-11 pr-12 text-sm font-semibold text-stone-800 shadow-sm outline-none transition focus:border-oro focus:ring-4 focus:ring-oro/20"
+            autocomplete="off"
+          >
+          <button id="clear-search" type="button" class="absolute right-2 top-1/2 hidden -translate-y-1/2 w-9 h-9 rounded-full bg-stone-100 text-stone-500 hover:bg-vino hover:text-white transition" aria-label="Limpiar búsqueda">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <p id="menu-search-status" class="mt-2 text-xs font-bold text-stone-500">Mostrando todo el menú</p>
+      </div>
+      </div>
+    </div>
+    <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    <div id="products-empty" class="hidden paper rounded-2xl border border-stone-200 p-8 text-center">
+      <i class="fa-solid fa-magnifying-glass text-3xl text-oliva"></i>
+      <h3 class="font-display text-2xl text-vino mt-3">Sin resultados</h3>
+      <p class="text-sm text-stone-500 mt-1">Prueba otra palabra o cambia de categoría.</p>
+    </div>
+  </main>
+
+  <footer class="bg-stone-900 text-white mt-8">
+    <div class="max-w-6xl mx-auto px-4 py-10 flex flex-col items-center text-center">
+      <div class="bg-white p-3 rounded-2xl shadow-lg">
+        <img
+          id="footer-qrcode"
+          class="footer-qr"
+          src="/output/pdf/don-mario/don-mario-menu-light-qr.png"
+          alt="Código QR del menú Don Mario"
+          loading="lazy"
+        >
+      </div>
+      <div class="flex items-center gap-3 mt-5">
+        <img class="brand-logo" src="https://i.imgur.com/hBJL051.jpeg" alt="Don Mario logo">
+        <p class="font-display text-4xl text-white leading-none">Don Mario</p>
+      </div>
+      <p class="text-xs text-white/55 mt-1">Escanea para abrir este menú</p>
+      <div class="w-12 h-px bg-oro my-5"></div>
+      <div id="menu-light-banner" class="hidden w-full max-w-md mx-auto mb-5 rounded-2xl border border-amber-200 bg-amber-50 px-3 py-2 text-stone-800">
+        <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <p class="text-[10px] sm:text-[11px] font-semibold leading-tight">
+            Esta es la versión de menú físico. Para pedir en línea entra al menú digital sin bloqueo.
+          </p>
+          <a href="/negocios/don-mario/" class="inline-flex items-center justify-center gap-1 rounded-full bg-vino px-2.5 py-1 text-[9px] font-black uppercase tracking-[.06em] text-white shadow-sm whitespace-nowrap">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            Menú digital
+          </a>
+        </div>
+      </div>
+      <p class="text-sm text-white/75">
+        Generado por
+        <a href="https://routicket.com" target="_blank" rel="noopener" class="text-oro font-bold hover:underline">Routicket.com</a>
+      </p>
+      <p class="text-[11px] text-white/40 mt-1">Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <button id="floating-cart" onclick="toggleCart()" class="order-only fixed bottom-5 left-1/2 -translate-x-1/2 z-30 bg-vino text-white rounded-full shadow-2xl px-5 py-3 items-center gap-3 hidden">
+    <span class="w-7 h-7 bg-white/15 rounded-full grid place-items-center"><i class="fa-solid fa-basket-shopping text-sm"></i></span>
+    <span id="floating-count" class="font-bold text-sm"></span>
+    <span class="w-px h-5 bg-white/25"></span>
+    <span id="floating-total" class="font-black"></span>
+  </button>
+
+  <div id="cart-overlay" class="order-only fixed inset-0 bg-black/60 z-50 hidden opacity-0 transition-opacity" onclick="if(event.target===this) toggleCart()">
+    <aside id="cart-modal" class="absolute top-0 right-0 w-full sm:w-[420px] h-full bg-crema shadow-2xl translate-x-full transition-transform duration-300 flex flex-col" role="dialog" aria-modal="true" aria-labelledby="cart-title">
+      <div class="p-5 bg-vino text-white flex justify-between items-center">
+        <div>
+          <p class="text-[10px] uppercase tracking-[.25em] text-white/65">Il tuo ordine</p>
+          <h3 id="cart-title" class="font-display text-2xl">Tu orden</h3>
+        </div>
+        <button onclick="toggleCart()" class="w-10 h-10 rounded-full bg-white/10" aria-label="Cerrar orden"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div id="cart-items" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+      <div class="p-4 border-t border-stone-200 bg-white">
+        <button id="location-button" onclick="markDeliveryLocation()" class="w-full mb-3 border border-stone-300 hover:border-oliva text-stone-700 py-3 px-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2">
+          <i class="fa-solid fa-location-crosshairs text-oliva"></i>
+          <span id="location-button-text">Marcar envío y ubicación</span>
+        </button>
+        <div id="delivery-address" class="hidden mb-3 bg-green-50 border border-green-200 rounded-xl p-3 text-xs text-green-900">
+          <div class="flex gap-2 items-start">
+            <i class="fa-solid fa-location-dot mt-0.5"></i>
+            <span id="delivery-address-text"></span>
+          </div>
+        </div>
+        <button onclick="showMyOrders()" class="w-full mb-3 bg-stone-100 hover:bg-stone-200 text-stone-700 py-3 px-3 rounded-xl font-bold text-sm">
+          <i class="fa-solid fa-clock-rotate-left text-vino mr-2"></i>Mis pedidos
+        </button>
+        <div class="flex justify-between items-end mb-4">
+          <div><p class="text-xs text-stone-500">Total estimado</p><p class="text-[10px] text-stone-400">Precios en MXN</p></div>
+          <span id="cart-total" class="font-display text-3xl text-vino">$0.00</span>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <button id="qr-button" onclick="showOrderQR()" class="bg-vino hover:bg-rosso text-white py-3 px-2 rounded-xl font-bold text-sm disabled:opacity-40" disabled>
+            <i class="fa-solid fa-qrcode mr-1"></i> QR al mesero
+          </button>
+          <button id="whatsapp-button" onclick="checkout()" class="bg-oliva hover:bg-green-800 text-white py-3 px-2 rounded-xl font-bold text-sm disabled:opacity-40" disabled>
+            <i class="fa-brands fa-whatsapp mr-1"></i> WhatsApp
+          </button>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <div id="qr-overlay" class="order-only fixed inset-0 bg-black/75 z-[70] hidden p-4 place-items-center" onclick="if(event.target===this) closeOrderQR()">
+    <section class="bg-crema w-full max-w-sm rounded-[2rem] p-6 text-center shadow-2xl relative">
+      <button onclick="closeOrderQR()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-stone-200" aria-label="Cerrar QR"><i class="fa-solid fa-xmark"></i></button>
+      <p class="text-oliva uppercase tracking-[.25em] text-[10px] font-bold">Ordine pronto</p>
+      <h3 class="font-display text-3xl text-vino mt-1">Muestra al mesero</h3>
+      <p id="qr-folio" class="text-xs text-stone-500 mt-1"></p>
+      <div id="qrcode" class="bg-white p-4 rounded-2xl inline-block my-5 shadow-sm"></div>
+      <p class="text-sm text-stone-600">El QR abre la vista del mesero con el pedido desglosado.</p>
+      <a href="mesero.html" class="mt-3 inline-flex items-center justify-center gap-2 w-full bg-stone-900 text-white rounded-xl py-3 font-bold">
+        <i class="fa-solid fa-mobile-screen-button"></i> Abrir lector de mesero
+      </a>
+      <button onclick="shareOrder()" class="mt-4 w-full border-2 border-vino text-vino rounded-xl py-3 font-bold">
+        <i class="fa-solid fa-share-nodes mr-2"></i>Compartir orden
+      </button>
+    </section>
+  </div>
+
+  <div id="my-orders-overlay" class="order-only fixed inset-0 bg-black/75 z-[65] hidden p-4 place-items-center" onclick="if(event.target===this) closeMyOrders()">
+    <section class="bg-crema w-full max-w-lg max-h-[85vh] rounded-[2rem] shadow-2xl flex flex-col overflow-hidden">
+      <div class="p-5 bg-vino text-white flex justify-between items-center">
+        <div>
+          <p class="text-[10px] uppercase tracking-[.25em] text-white/65">Historial local</p>
+          <h3 class="font-display text-2xl">Mis pedidos</h3>
+        </div>
+        <button onclick="closeMyOrders()" class="w-10 h-10 rounded-full bg-white/10" aria-label="Cerrar historial"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div id="my-orders-list" class="p-4 overflow-y-auto space-y-3"></div>
+    </section>
+  </div>
+
+  <div id="toast" class="toast fixed bottom-5 left-1/2 bg-stone-900 text-white px-5 py-3 rounded-full shadow-xl z-[80] flex items-center gap-2 pointer-events-none">
+    <i class="fa-solid fa-check text-oro"></i><span id="toast-message" class="text-sm"></span>
+  </div>
+
+  <script>
+    const apiResponse = {
+        success: true,
+        data: {
+        user_id: 1544,
+        id_tienda: 15525,
+        titulo: 'Don Mario',
+        foto: 'https://i.imgur.com/DxIchSn.jpeg',
+        descripcion: 'Restaurante Italiano',
+        views: 0,
+        maps: 'https://routicket.com/map',
+        url: 'https://routicket.com/negocios/don-mario/',
+        tel: '+529843869741',
+        status: 'activo',
+        lat: '',
+        lng: '',
+        direccion: 'Playa del Carmen, Quintana Roo',
+        video: '',
+        color: '7F1D1D',
+        usuario: '1544',
+        foto_ticket: 'https://i.imgur.com/Ol98FF8.png',
+        slider: 0,
+        productos: [
+      {category:'Appetizers',name:'Bruschetta (4 pz)',desc:'Toasted bread w/ tomato, olive oil, garlic, & parmesan / Pan tostado con jitomate, aceite de oliva, ajo y parmesano.',price:150},
+      {category:'Appetizers',name:'Focaccia Bruschetta',desc:'Base de focaccia estilo bruschetta.',price:110},
+      {category:'Appetizers',name:'Focaccia Parma',desc:'Pizza base with olive oil and oregano - Parma ham / Masa de pizza con aceite de oliva y orégano - Jamón serrano.',price:140},
+      {category:'Appetizers',name:'Prosciutto e Melone',desc:'Parma ham & melon / Jamón serrano y melón.',price:190},
+      {category:'Appetizers',name:'Caprese',desc:'Tomato, fresh Mozzarella, basil & oregano / Tomate, queso Mozzarella fresco, albahaca y orégano.',price:210},
+      {category:'Appetizers',name:'Caprese Burrata',desc:'Tomato, Burrata & rocket salad / Tomate, Burrata y arúgula.',price:250},
+      {category:'Appetizers',name:'Gamberi',desc:'Shrimps / Calamares y camarones fritos.',price:290},
+      {category:'Appetizers',name:'Caprino',desc:'Goat Cheese / Queso de cabra.',price:280},
+      {category:'Appetizers',name:'Burrata',desc:'Burrata cheese, rocket salad / Queso Burrata y rucola.',price:310},
+      {category:'Salads',name:'César Regular',desc:'Ensalada César clásica.',price:110},
+      {category:'Salads',name:'César Chicken / Pollo',desc:'Ensalada César con pollo.',price:180},
+      {category:'Salads',name:'César Shrimp / Camarón',desc:'Ensalada César con camarón.',price:220},
+      {category:'Salads',name:'Greek / Griega',desc:'Lettuce, tomato, cucumber, onion, bell pepper & Feta cheese / Lechuga, tomate, pepino, cebolla, aceitunas, pimiento y queso Feta.',price:190},
+      {category:'Salads',name:'Primavera',desc:'Lettuce, arugula, cherry tomatoes, carrots / Lechuga, arúgula, tomates cherry, zanahoria.',price:280},
+      {category:'Salads',name:'Don Mario',desc:'Arugula, shrimp, cherry tomatoes, carrots, Parmesan / Arúgula, camarones, tomate cherry, zanahoria y Parmesano.',price:310},
+      {category:'Appetizers',name:'Carpaccio Salmón',desc:'Carpaccio de salmón.',price:160},
+      {category:'Appetizers',name:'Carpaccio Tunafish',desc:'Carpaccio de atún.',price:180},
+      {category:'Appetizers',name:'Carpaccio Beef',desc:'Carpaccio de res.',price:270},
+      {category:'Soups',name:'Leek & Potato / Papa y Poro',desc:'Sopa de papa y poro.',price:''},
+      {category:'Soups',name:'Onion / Cebolla',desc:'Sopa de cebolla.',price:''},
+      {category:'Soups',name:'Cioppino Seafood / Mariscos',desc:'Sopa de mariscos estilo italiano.',price:''},
+      {category:'Soups',name:'Salmon',desc:'Sopa de salmón.',price:190},
+      {category:'Soups',name:'Atún',desc:'Sopa de atún.',price:190},
+      {id:11,category:'Pastas',name:'Spaghetti Aglio Olio',desc:'Aceite de olivo, ajo y chile de árbol.',price:140},
+      {id:12,category:'Pastas',name:'Spaghetti Pomodoro',desc:'Salsa de tomate y albahaca.',price:160},
+      {id:13,category:'Pastas',name:'Penne Arrabbiata',desc:'Salsa de tomate, ajo y chile de árbol.',price:170},
+      {id:14,category:'Pastas',name:'Spaghetti Carbonara',desc:'Tocino, huevos y parmesano.',price:180},
+      {id:15,category:'Pastas',name:'Fettuccine Alfredo',desc:'Jamón cocido en salsa Alfredo.',price:180},
+      {id:16,category:'Pastas',name:'Penne 4 Formaggi',desc:'Salsa de cuatro quesos.',price:210},
+      {id:17,category:'Pastas',name:'Linguine Scoglio',desc:'Mariscos en salsa de vino blanco, aceite de olivo y ajo.',price:260},
+      {id:18,category:'Pastas',name:"Fettuccine all'Aragosta",desc:'Langosta, tomate cherry y brandy.',price:330},
+      {id:19,category:'Gnocchi/Ravioli',name:'Gnocchi Bolognese',desc:'Hechos en casa con carne molida en salsa de tomate.',price:180},
+      {id:20,category:'Gnocchi/Ravioli',name:'Ravioli 4 Formaggi',desc:'Rellenos, en salsa de cuatro quesos.',price:190},
+      {id:21,category:'Gnocchi/Ravioli',name:'Lasagna Meat',desc:'Lasagna tradicional de carne.',price:190},
+      {id:22,category:'Pizzas',name:'Margherita',desc:'Salsa de tomate, queso mozzarella y albahaca.',price:140},
+      {id:23,category:'Pizzas',name:'Prosciutto',desc:'Salsa de tomate, queso mozzarella y jamón cocido.',price:160},
+      {id:24,category:'Pizzas',name:'Diavolina',desc:'Salsa de tomate, queso mozzarella y pepperoni.',price:170},
+      {id:25,category:'Pizzas',name:'Hawaiana',desc:'Salsa de tomate, queso mozzarella, jamón cocido y piña.',price:170},
+      {id:26,category:'Pizzas',name:'4 Stagioni',desc:'Mozzarella, jamón, champiñones, alcachofas y aceitunas negras.',price:190},
+      {id:27,category:'Pizzas',name:'Calzone Farcito',desc:'Relleno de tomate, mozzarella, jamón, champiñones y alcachofas.',price:190},
+      {id:28,category:'Pizzas',name:'Don Mario',desc:'Mozzarella, bresaola, arúgula, tomate cherry y parmesano.',price:240},
+      {id:29,category:'Carnes',name:'Pollo Valdostano',desc:'Pechuga con jamón y queso Fontina en salsa de champiñones.',price:260},
+      {id:30,category:'Carnes',name:'Arrachera (Angus)',desc:'350 g a las brasas, con papas o vegetales.',price:330},
+      {id:31,category:'Carnes',name:'Rib-Eye (Angus)',desc:'450 g a las brasas, con papas o vegetales.',price:410},
+      {id:32,category:'Carnes',name:'Mixed Grill Platter',desc:'Para dos: arrachera, rib-eye, pollo y salciccia italiana.',price:950},
+      {id:33,category:'Mariscos',name:'Filete de Mero',desc:'A la plancha con ajo.',price:180},
+      {id:34,category:'Mariscos',name:'Salmón',desc:'A la plancha o en salsa de vino blanco.',price:330},
+      {id:35,category:'Mariscos',name:'Camarones',desc:'A la plancha con ajo.',price:350},
+      {id:36,category:'Mariscos',name:'Mixed Seafood Platter',desc:'Para dos: dorado, salmón, camarones y calamares.',price:990},
+      {id:37,category:'Bebidas',name:'Limonada / Naranjada',desc:'Vaso.',price:30},
+      {id:38,category:'Bebidas',name:'Cerveza XX Lager',desc:'De barril, 355 ml.',price:50},
+      {id:39,category:'Bebidas',name:'Sangría',desc:'Copa, 170 ml.',price:90},
+      {id:40,category:'Bebidas',name:'Aperol Spritz',desc:'Aperitivo clásico.',price:120},
+      {id:41,category:'Bebidas',name:'Margarita',desc:'Clásica o fresa.',price:120},
+      {id:42,category:'Bebidas',name:'Carajillo / Licor 43',desc:'Licor dulce.',price:110}
+        ].map((product, index) => ({
+          id: index + 1,
+          name: product.name,
+          name_en: '',
+          description: product.desc,
+          description_en: '',
+          price: product.price,
+          image: product.image || '',
+          fallbackImage: '',
+          id_categoria: {
+            Appetizers: 1,
+            Salads: 2,
+            Soups: 3,
+            Entradas: 1,
+            Sopas: 3,
+            Ensaladas: 2,
+            Pastas: 4,
+            'Gnocchi/Ravioli': 5,
+            Pizzas: 6,
+            Carnes: 7,
+            Mariscos: 8,
+            Bebidas: 9
+          }[product.category],
+          category_name: product.category
+        }))
+      }
+    };
+
+    const menuSections = [
+      {
+        nombre: 'Soft Drinks / Italian Water / Cerveza de Barril',
+        elementos: [
+          {nombre:'Acqua de Piedra (650ml - con gas)', precio:120},
+          {nombre:'Agua mineral', precio:50},
+          {nombre:'Agua natural', precio:35},
+          {nombre:'Agua Zoe (500ml - sin gas)', precio:90},
+          {nombre:'Jamaica', precio:60},
+          {nombre:'Jugo de Naranja', precio:80},
+          {nombre:'Limonada', precio:60},
+          {nombre:'Naranjada', precio:70},
+          {nombre:'Refrescos (lata 355ml) (Coca Cola, Coca Zero, Fanta, Sprite)', precio:60},
+          {nombre:'XX Ambar (dark) Draft Beer (400ml)', precio:75},
+          {nombre:'XX Ambar (dark) Draft Beer (600ml)', precio:95},
+          {nombre:'XX Lager (blonde) Draft Beer (400ml)', precio:75},
+          {nombre:'XX Lager (blonde) Draft Beer (600ml)', precio:95}
+        ]
+      },
+      {nombre:'Sangria', elementos:[
+        {nombre:'1/2lt (3 copas)', precio:290},
+        {nombre:'1lt (6 copas)', precio:490},
+        {nombre:'Copa (170ml)', precio:130}
+      ]},
+      {nombre:'Gin', elementos:[
+        {nombre:'Beefeater', precio:210},
+        {nombre:'Bombay', precio:210},
+        {nombre:'Hendricks', precio:290},
+        {nombre:'Tanqueray', precio:250}
+      ]},
+      {nombre:'Aperitivos', elementos:[
+        {nombre:'Americano', precio:210},
+        {nombre:'Aperol Spritz', precio:180},
+        {nombre:'Campari Spritz', precio:180},
+        {nombre:'Negroni', precio:250},
+        {nombre:'Prosecco (copa)', precio:160}
+      ]},
+      {nombre:'Licores', elementos:[
+        {nombre:'Amaretto di Saronno', precio:180},
+        {nombre:'Averna', precio:210},
+        {nombre:'Baileys', precio:180},
+        {nombre:'Fernet', precio:180},
+        {nombre:'Grappa', precio:210},
+        {nombre:'Kahlua', precio:180},
+        {nombre:'Licor del 43', precio:210},
+        {nombre:'Limoncello', precio:180},
+        {nombre:'Martini', precio:180},
+        {nombre:'Sambuca', precio:180}
+      ]},
+      {nombre:'Brandy y Cognac', elementos:[
+        {nombre:'Courvoisier', precio:280},
+        {nombre:'Martell', precio:280},
+        {nombre:'Torres 10', precio:180}
+      ]},
+      {nombre:'Ron', elementos:[
+        {nombre:'Bacardi añejo', precio:210},
+        {nombre:'Bacardi blanco', precio:180},
+        {nombre:'Capitan Morgan', precio:210},
+        {nombre:'Zacapa', precio:290}
+      ]},
+      {nombre:'Whisky', elementos:[
+        {nombre:'Black Label', precio:250},
+        {nombre:"Buchana's", precio:280},
+        {nombre:'Jack Daniels', precio:210},
+        {nombre:'Red Label', precio:210}
+      ]},
+      {nombre:'Tequila', elementos:[
+        {nombre:'1800 añejo', precio:230},
+        {nombre:'1800 reposado', precio:190},
+        {nombre:'Don Julio 70', precio:310},
+        {nombre:'Don Julio añejo', precio:280},
+        {nombre:'Don Julio blanco', precio:230},
+        {nombre:'Don Julio reposado', precio:250},
+        {nombre:'José Cuervo Esp.', precio:140}
+      ]},
+      {nombre:'Vodka', elementos:[
+        {nombre:'Absolut', precio:210},
+        {nombre:'Grey Goose', precio:280},
+        {nombre:'Smirnoff', precio:180}
+      ]},
+      {nombre:'Cocktails', elementos:[
+        {nombre:'Daiquiri Fresa', precio:210},
+        {nombre:'Margarita', precio:210},
+        {nombre:'Margarita fresa', precio:210},
+        {nombre:'Mojito', precio:210},
+        {nombre:'Piña Colada', precio:210},
+        {nombre:'Tequila Sunrise', precio:210}
+      ]},
+      {nombre:'Vinos Blancos', elementos:[
+        {nombre:'Chile - Chardonnay (Botella 750ml)', descripcion:'Bottle Chardonnay Chile', precio:620},
+        {nombre:'Chile - Sauvignon Blanc (Botella 750ml)', descripcion:'Bottle Sauvignon Blanc Chile', precio:620},
+        {nombre:'Copa Pinot Grigio', descripcion:'Pinot Grigio Glass', precio:180},
+        {nombre:'Copa Prosecco', descripcion:'Prosecco Glass', precio:160},
+        {nombre:'Italia - Chardonnay (Botella 750ml)', descripcion:'Bottle Chardonnay Italy', precio:690},
+        {nombre:'Italia - Pinot Grigio (Botella 750ml)', descripcion:'Bottle Pinot Grigio Italy', precio:690},
+        {nombre:'Italia - Prosecco (Botella 750ml)', descripcion:'Bottle Prosecco Italy', precio:780},
+        {nombre:'Italia - Rosee (Botella 750ml)', descripcion:'Bottle Rose Italy', precio:690},
+        {nombre:'México - Casa Madero 2V (Botella 750ml)', descripcion:'Bottle Casa Madero 2V Mexico', precio:990},
+        {nombre:'México - Chardonnay (Botella 750ml)', descripcion:'Bottle Chardonnay Mexico', precio:690},
+        {nombre:'México - Chenin Blanc (Botella 750ml)', descripcion:'Bottle Chenin Blanc Mexico', precio:750},
+        {nombre:'Sauvignon Blanc (1 Litro)', descripcion:'House White Wine Liter', precio:590},
+        {nombre:'Sauvignon Blanc (1/2 Litro)', descripcion:'House White Wine Half Liter', precio:320},
+        {nombre:'Sauvignon Blanc (Copa 166ml)', descripcion:'House White Wine Glass', precio:140}
+      ]},
+      {nombre:'Vinos Tintos', elementos:[
+        {nombre:'Argentina - Malbec 100% (Botella 750ml)', descripcion:'Bottle Malbec Argentina', precio:790},
+        {nombre:'Cabernet Sauvignon (1 Litro)', descripcion:'House Red Wine Liter', precio:590},
+        {nombre:'Cabernet Sauvignon (1/2 Litro)', descripcion:'House Red Wine Half Liter', precio:320},
+        {nombre:'Cabernet Sauvignon (Copa 166ml)', descripcion:'House Red Wine Glass', precio:140},
+        {nombre:'Chile - Cabernet Sauvignon (Botella 750ml)', descripcion:'Bottle Cabernet Sauvignon Chile', precio:620},
+        {nombre:'Chile - Carmenere (Botella 750ml)', descripcion:'Bottle Carmenere Chile', precio:620},
+        {nombre:'Chile - Merlot (Botella 750ml)', descripcion:'Bottle Merlot Chile', precio:620},
+        {nombre:'Chile - Pinot Noir (Botella 750ml)', descripcion:'Bottle Pinot Noir Chile', precio:720},
+        {nombre:'Italia - Amarone Della Valpolicella (Botella 750ml)', descripcion:'Bottle Amarone Italy', precio:2600},
+        {nombre:'Italia - Barbera (Botella 750ml)', descripcion:'Bottle Barbera Italy', precio:780},
+        {nombre:'Italia - Barolo (Botella 750ml)', descripcion:'Bottle Barolo Italy', precio:1800},
+        {nombre:'Italia - Chianti (Botella 750ml)', descripcion:'Bottle Chianti Italy', precio:790},
+        {nombre:'Italia - Lambrusco (Botella 750ml)', descripcion:'Bottle Lambrusco Italy', precio:620},
+        {nombre:'Italia - Merlot (Botella 750ml)', descripcion:'Bottle Merlot Italy', precio:620},
+        {nombre:"Italia - Nero D'avola (Botella 750ml)", descripcion:"Bottle Nero D'avola Italy", precio:690},
+        {nombre:'Italia - Ripasso Della Valpolicella (Botella 750ml)', descripcion:'Bottle Ripasso Italy', precio:1360},
+        {nombre:'Italia - Syrah (Botella 750ml)', descripcion:'Bottle Syrah Italy', precio:690},
+        {nombre:'Italia - Valpolicella Classico (Botella 750ml)', descripcion:'Bottle Valpolicella Italy', precio:960},
+        {nombre:'México - 3V Cabernet Merlot Tempranillo (Botella 750ml)', descripcion:'Bottle 3V Mexico', precio:1200},
+        {nombre:'México - Nebbiolo (Botella 750ml)', descripcion:'Bottle Nebbiolo Mexico', precio:850},
+        {nombre:"Montepulciano D'abruzzo (1 Litro)", descripcion:'Montepulciano Liter', precio:790},
+        {nombre:"Montepulciano D'abruzzo (1/2 Litro)", descripcion:'Montepulciano Half Liter', precio:450},
+        {nombre:"Montepulciano D'abruzzo (Copa 166ml)", descripcion:'Montepulciano Glass', precio:180}
+      ]},
+      {nombre:'Cafetería', elementos:[
+        {nombre:'Americano', precio:60},
+        {nombre:'Café con leche', precio:60},
+        {nombre:'Capuccino', precio:80},
+        {nombre:'Carajillo', precio:210},
+        {nombre:'Espresso', precio:50},
+        {nombre:'Espresso Doble', precio:80},
+        {nombre:'Frappuccino', precio:120},
+        {nombre:'Té sabores', precio:40}
+      ]},
+      {nombre:'Postres', elementos:[
+        {nombre:'Affogato', precio:130},
+        {nombre:'Cheesecake Chocolate', precio:130},
+        {nombre:'Cheesecake Fresa', precio:130},
+        {nombre:'Mousse de Chocolate', precio:130},
+        {nombre:'Panna Cotta', precio:130},
+        {nombre:'Tiramisú', precio:160}
+      ]},
+      {
+        nombre:'Affogato Bar (Crea tu propio)',
+        descripcion:'Nace en Milán, Italia. En español significa "Ahogado". 1.- Choose your ice cream. 2.- Add Coffee or Liquor. 3.- Enjoy it.',
+        elementos:[
+          {nombre:'Affogato Café', precio:130},
+          {nombre:'Affogato con Baileys', precio:180},
+          {nombre:'Affogato con Capitan Morgan', precio:180},
+          {nombre:'Affogato con Courvoisier', precio:290},
+          {nombre:'Affogato con Disaronno', precio:190},
+          {nombre:'Affogato con Kahlúa', precio:180},
+          {nombre:'Affogato con Martell', precio:250},
+          {nombre:'Affogato con Red Label', precio:220}
+        ]
+      },
+      {nombre:'Pastas', elementos:[
+        {nombre:'Fettuccine Alfredo', descripcion:'Alfredo sauce & ham / Jamón cocido en salsa Alfredo', precio:270},
+        {nombre:'Fettuccine Boscaiola', descripcion:'Mushroom sauce / Salsa de champiñones', precio:260},
+        {nombre:'Fettuccine Caribeño', descripcion:'Squids, cherry tomatoes & pesto / Calamares, tomate cherry y pesto', precio:310},
+        {nombre:'Fettuccine Gamberi e Zucchine', descripcion:'Shrimps and italian zucchini / Camarones y calabaza italiana', precio:350},
+        {nombre:'Fettuccine Ortolana', descripcion:'Tomato sauce, zucchini, eggplant & mushrooms / Salsa de tomate, calabaza, berenjena y champiñones', precio:270},
+        {nombre:'Fettuccine Salciccia', descripcion:'Italian sausage, cherry tomatoes, garlic & arugula / Salciccia italiana, tomate cherry, ajo y rúcula', precio:280},
+        {nombre:'Linguini Scoglio', descripcion:'Seafood, olive oil, garlic in a white wine sauce / Mariscos en salsa de vino blanco, aceite de olivo y ajo', precio:330},
+        {nombre:'Linguini Vongole', descripcion:'Fresh clams, olive oil & garlic in a white sauce / Almejas, aceite de olivo y ajo en salsa de vino blanco', precio:310},
+        {nombre:'Penne 4 Formagi', descripcion:'4 cheeses sauce / Salsa de 4 quesos', precio:280},
+        {nombre:'Penne Arrabiata', descripcion:'Tomato sauce, garlic & crushed pepper / Salsa de tomate, ajo y chile de árbol', precio:230},
+        {nombre:'Penne Aurora', descripcion:'Tomato sauce & cream / Salsa de tomate y crema', precio:220},
+        {nombre:'Penne Don Mario', descripcion:'Shrimps & cherry tomatoes / Camarones y tomate cherry', precio:360},
+        {nombre:'Penne Mari e Monti', descripcion:'Shrimps & mushrooms / Camarones y champiñones', precio:350},
+        {nombre:'Penne Vodka e Salmone', descripcion:'Salmon & vodka with Aurora sauce / Salmón y vodka en salsa Aurora', precio:330},
+        {nombre:'Spaghetti Aglio Olio', descripcion:'Olive Oil, Garlic & Crushed Pepper / Aceite De Olivo, Ajo y Chile de Árbol', precio:195},
+        {nombre:'Spaghetti al Pesto', descripcion:'Sauce with basil, pine nuts & Pecorino cheese / Salsa de albahaca, piñones y queso Pecorino', precio:260},
+        {nombre:'Spaghetti Amatriciana', descripcion:'Fresh tomato, bacon, Pecorino cheese & crushed peppers / Tomate fresco, tocino, queso Pecorino y chile de árbol', precio:270},
+        {nombre:'Spaghetti Bolognese', descripcion:'Meat ragout with tomato sauce / Carne molida en salsa de tomate', precio:250},
+        {nombre:'Spaghetti Carbonara', descripcion:'Bacon, eggs & parmesan / Tocino, huevos y parmesano', precio:250},
+        {nombre:'Spaghetti Crudaiola', descripcion:'Cherry tomatoes, olive oil, garlic & basil / Tomate cherry, aceite de olivo, ajo y albahaca', precio:260},
+        {nombre:'Spaghetti Pomodoro', descripcion:'Tomato sauce & basil / Salsa de tomate y albahaca', precio:220},
+        {nombre:'Spaghetti Puttanesca', descripcion:'Fresh tomato, anchovies, capers & olives / Tomate fresco, anchoas, alcaparras y aceitunas', precio:270}
+      ]},
+      {
+        nombre:'Menu Gelato Artesanal',
+        descripcion:'Sabores base de leche: Vainilla, Chocolate, Avellana, Pistache, Café, Stracciatella, Coco, Tiramisú, Menta y chocolate. Sabores base de agua: Limón, Fresa, Maracuyá, Frutos Rojos, Mango.',
+        elementos:[
+          {nombre:'Gelato 1 Sabor', precio:70},
+          {nombre:'Gelato 2 Sabores', precio:130},
+          {nombre:'Gelato 3 Sabores', precio:180}
+        ]
+      },
+      {nombre:'Apetizer & Carpaccio', elementos:[
+        {nombre:'Antipasto Italiano', descripcion:'Mixed italian coldcuts & cheeses / Mixto de carnes frías y quesos italiano', precio:310},
+        {nombre:'Bruschetta (4 pz)', descripcion:'Toasted bread w/ tomato, olive oil, garlic, basil & parmesan / Pan tostado con jitomate, aceite de olivo, ajo, albahaca y parmesano.', precio:110},
+        {nombre:'Calamari - Gamberi', descripcion:'Fried calamari & shrimps / Calamares y camarones fritos', precio:290},
+        {nombre:'Calamari Fritti', descripcion:'Fried Calamari / Calamares fritos', precio:230},
+        {nombre:'Carpaccio Beef / Res / Carne', precio:280},
+        {nombre:'Carpaccio Bresaola Italiana', precio:280},
+        {nombre:'Carpaccio Salmón / Salmone', precio:280},
+        {nombre:'Carpaccio Tunafish / Atún / Tonno', precio:280},
+        {nombre:'Focaccia', descripcion:'Pizza base with olive oil and oregano - Parma ham / Masa de pizza con aceite de olivo y orégano - Serrano', precio:120},
+        {nombre:'Focaccia Bruschetta', precio:180},
+        {nombre:'Parma', descripcion:'Pizza base with olive oil and oregano - Parma ham / Masa de pizza con aceite de olivo y orégano - Serrano', precio:220},
+        {nombre:'Prosciutto e Burrata', descripcion:'Parma Ham & Burrata cheese, rocket salad / Jamón Serrano y Queso Burrata y rucola', precio:280},
+        {nombre:'Prosciutto e Caprino', descripcion:'Parma Ham & Goat Cheese / Jamón Serrano y Queso de Cabra', precio:210},
+        {nombre:'Prosciutto e Melone', descripcion:'Parma ham & melon / Jamón Serrano y melón', precio:190},
+        {nombre:'Tartare di Tonno', descripcion:'Tuna Tartare / Tartar de atún', precio:280}
+      ]},
+      {nombre:'Salads & Soups', elementos:[
+        {nombre:'Caprese', descripcion:'Tomato, fresh Mozzarella cheese & basil / Tomate, queso Mozzarella fresco y albahaca', precio:210},
+        {nombre:'Caprese Burrata', descripcion:'Tomato, Burrata & rocket salad / Tomate, queso burrata y arúgula', precio:250},
+        {nombre:'César Chicken / Pollo', precio:210},
+        {nombre:'César Regular', precio:180},
+        {nombre:'César Shrimp / Camarones', precio:240},
+        {nombre:'Cioppino Seafood / Mariscos', precio:270},
+        {nombre:'Don Mario', descripcion:'Arugula, shrimps, cherry tomatoes, carrots & Parmesan / Arúgula, camarones, tomate cherry, zanahoria y Parmesan', precio:260},
+        {nombre:'Greek / Griega', descripcion:'Lettuce, tomato, cucumber, onions, olives, green pepper & Feta cheese / Lechuga, tomate, pepino, cebolla, aceitunas, pimiento y queso Feta', precio:210},
+        {nombre:'Leek & Potatoes / Papa y Poro', precio:160},
+        {nombre:'Mixed / Mixta', precio:160},
+        {nombre:'Onion / Cebolla', precio:180},
+        {nombre:'Primavera', descripcion:'Lettuce, arugula, blue cheese, bacon & pine nuts / Lechuga, arúgula, queso azul, tocino y piñones', precio:220}
+      ]},
+      {nombre:'Gnocchi & Ravioli (Home made)', elementos:[
+        {nombre:'Gnocchi 4 Formaggi', descripcion:'4 cheeses sauce / Salsa de 4 quesos', precio:270},
+        {nombre:'Gnocchi Al Pomodoro', descripcion:'Tomato sauce / Salsa de tomate', precio:210},
+        {nombre:'Gnocchi Aurora', descripcion:'Tomato sauce & cream / Salsa de tomate y crema', precio:210},
+        {nombre:'Gnocchi Bolognese', descripcion:'Meat ragout / Carne molida en salsa de tomate', precio:250},
+        {nombre:'Gnocchi Burro e Salvia', descripcion:'Sage & butter / Mantequilla y salvia', precio:195},
+        {nombre:'Gnocchi Crudaiola', descripcion:'Cherry tomatoes, olive oil, garlic & basil / Tomate cherry, aceite de olivo, ajo y albahaca', precio:250},
+        {nombre:'Gnocchi Mari e Monti', descripcion:'Shrimps & mushrooms sauce / Salsa de camarones y hongos', precio:330},
+        {nombre:'Gnocchi Panna e Funghi', descripcion:'Mushrooms sauce & sour cream / Salsa de champiñones y crema', precio:250},
+        {nombre:'Gnocchi Pesto', descripcion:'Sauce with basil, pine nuts & Pecorino cheese / Salsa de albahaca, piñones y queso Pecorino', precio:260},
+        {nombre:'Gnocchi Salciccía', descripcion:'Italian sausage, cherry tomatoes, garlic & arugula / Salciccía Italiana, tomate cherry, ajo y arúgula', precio:280},
+        {nombre:'Gnocchi Zola e Noci', descripcion:'Blue cheese & nuts / Queso azul y nueces', precio:270},
+        {nombre:'Lasagna', descripcion:'Home made lasagna / Lasagna hecha en casa', precio:250},
+        {nombre:'Ravioli 4 Formaggi', descripcion:'4 cheeses sauce / Salsa de 4 quesos', precio:270},
+        {nombre:'Ravioli Al Pomodoro', descripcion:'Tomato sauce / Salsa de tomate', precio:210},
+        {nombre:'Ravioli Aurora', descripcion:'Tomato sauce & cream / Salsa de tomate y crema', precio:210},
+        {nombre:'Ravioli Bolognese', descripcion:'Meat ragout / Carne molida en salsa de tomate', precio:250},
+        {nombre:'Ravioli Burro e Salvia', descripcion:'Sage & butter / Mantequilla y salvia', precio:195},
+        {nombre:'Ravioli Crudaiola', descripcion:'Cherry tomatoes, olive oil, garlic & basil / Tomate cherry, aceite de olivo, ajo y albahaca', precio:250},
+        {nombre:'Ravioli Mari e Monti', descripcion:'Shrimps & mushrooms sauce / Salsa de camarones y hongos', precio:330},
+        {nombre:'Ravioli Pesto', descripcion:'Sauce with basil, pine nuts & Pecorino cheese / Salsa de albahaca, piñones y queso Pecorino', precio:260},
+        {nombre:'Ravioli relleno 4 Cheese / 4 Quesos', descripcion:'Extra stuffed with 4 cheeses / Extra relleno de 4 quesos', precio:40},
+        {nombre:'Ravioli relleno Meat / Carne', descripcion:'Extra stuffed with meat / Extra relleno de carne', precio:30},
+        {nombre:'Ravioli relleno Ricotta & Spinach', descripcion:'Extra stuffed with spinach and ricotta / Extra relleno de espinaca y ricotta', precio:30},
+        {nombre:'Ravioli relleno Shrimps / Camarones', descripcion:'Extra stuffed with shrimps / Extra relleno de camarones', precio:60},
+        {nombre:'Ravioli Salciccía', descripcion:'Italian sausage, cherry tomatoes, garlic & arugula / Salciccía Italiana, tomate cherry, ajo y arúgula', precio:280},
+        {nombre:'Ravioli Zola e Noci', descripcion:'Blue cheese & nuts / Queso azul y nueces', precio:270}
+      ]},
+      {nombre:'The Grill', elementos:[
+        {nombre:'Arrachera (Angus) 12oz. 350gr.', descripcion:'A las brasas, con papas o vegetales.', precio:410},
+        {nombre:'Filet (Angus) 12oz. 300gr.', descripcion:'Filete Angus a la parrilla.', precio:460},
+        {nombre:'Filet 4 Cheeses Sauce / 4 Quesos', descripcion:'Filete Angus con salsa de cuatro quesos.', precio:490},
+        {nombre:'Filet Mushrooms / Champiñones', descripcion:'Filete Angus con salsa de champiñones.', precio:490},
+        {nombre:'Mixed Grill Platter (2 people / 2 personas)', descripcion:'Arrachera, Rib-Eye, chicken breast & italian sausage. Tiempo de preparación de 20-30 minutos.', precio:1390},
+        {nombre:'Rib-Eye (Angus) 16oz. 450gr.', descripcion:'A las brasas, con papas o vegetales.', precio:460},
+        {nombre:'Tagliata (Angus)', descripcion:'Filet, arugula, cherry tomatoes and parmesan.', precio:490}
+      ]},
+      {nombre:'Classic Meat', elementos:[
+        {nombre:'Chicken Breast / Pechuga de Pollo', descripcion:'Pechuga de pollo clásica.', precio:280},
+        {nombre:'Pollo Valdostano', descripcion:'Pechuga con jamón y queso Fontina en salsa de champiñones.', precio:340},
+        {nombre:'Scaloppine al Vino Bianco', descripcion:'Escalopas en salsa de vino blanco.', precio:310},
+        {nombre:'Scaloppine Alpe Pero', descripcion:'Escalopas estilo Alpe Pero.', precio:310}
+      ]},
+      {nombre:'The Sea', elementos:[
+        {nombre:'Lobster Tail 300gr.', descripcion:'During the season / En temporada.', precio:650},
+        {nombre:'Mahi-Mahi / Dorado', descripcion:'Dorado preparado al momento.', precio:360},
+        {nombre:'Mahi-Mahi Mediterranean / Dorado Mediterránea', descripcion:'Dorado estilo mediterráneo.', precio:390},
+        {nombre:'Mixed Seafood Platter (2 people / 2 personas)', descripcion:'Mahi-Mahi, Salmon, shrimps & calamari. Tiempo de preparación de 20-30 minutos.', precio:1390},
+        {nombre:'Salmon', descripcion:'Salmón fresco preparado al momento.', priceLabel:'$410 / $450', precio:410},
+        {nombre:'Tuna Steak / Bistec de Atún', descripcion:'Bistec de atún.', precio:410}
+      ]},
+      {nombre:'Pizzas 100% Wood Oven', elementos:[
+        {nombre:'4 Formaggi', precio:280},
+        {nombre:'4 Stagioni', precio:280},
+        {nombre:'Bella Italia', precio:350},
+        {nombre:'Bismark', precio:240},
+        {nombre:'Boscaiola', precio:290},
+        {nombre:'Calzone Farcito', precio:280},
+        {nombre:'Capricciosa', precio:270},
+        {nombre:'Carbonara', precio:260},
+        {nombre:'Diavola', precio:270},
+        {nombre:'Don Mario', precio:350},
+        {nombre:'El Fri', precio:290},
+        {nombre:'Exótica', precio:340},
+        {nombre:'Extra Burrata', precio:150},
+        {nombre:'Fonzie', precio:220},
+        {nombre:'Frutti di Mare', precio:340},
+        {nombre:'Gamberetti', precio:330},
+        {nombre:'Hawaiana', precio:240},
+        {nombre:'Margherita', precio:195},
+        {nombre:'Maya', precio:280},
+        {nombre:'Napoli', precio:250},
+        {nombre:'Ortolana', precio:270},
+        {nombre:'Parma', precio:290},
+        {nombre:'Parmigiana', precio:270},
+        {nombre:'Pepperoni', precio:250},
+        {nombre:'Prosciutto', precio:220},
+        {nombre:'Prosciutto e Funghi', precio:240},
+        {nombre:'Pugliese', precio:210},
+        {nombre:'Salciccía', precio:270},
+        {nombre:'Salmone', precio:330},
+        {nombre:'Siciliana', precio:260},
+        {nombre:'Suocera', precio:280},
+        {nombre:'Tirolese', precio:320},
+        {nombre:'Tonno e Cipolle', precio:240},
+        {nombre:'Tropicale', precio:320}
+      ]}
+    ];
+
+    function buildDonMarioProducts(sections) {
+      return sections.flatMap((section, sectionIndex) => {
+        const sectionDescription = section.descripcion || '';
+        return (section.elementos || []).map((item, itemIndex) => ({
+          id: Number(`${sectionIndex + 1}${String(itemIndex + 1).padStart(2, '0')}`),
+          name: item.nombre,
+          name_en: '',
+          description: item.descripcion || sectionDescription || 'Disponible en Don Mario.',
+          description_en: '',
+          price: item.precio,
+          priceLabel: item.priceLabel || '',
+          image: item.image || '',
+          fallbackImage: item.fallbackImage || item.image || apiResponse.data.foto || '',
+          id_categoria: sectionIndex + 1,
+          category_name: section.nombre
+        }));
+      });
+    }
+
+    const menuSortCollator = new Intl.Collator('es-MX', {sensitivity:'base', numeric:true});
+    const sortMenuProducts = products => [...products].sort((a, b) =>
+      menuSortCollator.compare(a.category_name || '', b.category_name || '')
+      || menuSortCollator.compare(a.name || '', b.name || '')
+    );
+
+    const STORE_API_URL = 'https://routicket.com/tienda/get_tienda.php?id_tienda=15525&user_id=1544&usuario=1544';
+    let business = apiResponse.data;
+    business.productos = sortMenuProducts(buildDonMarioProducts(menuSections));
+    window.routicketBusinessResponse = apiResponse;
+    window.routicketBusinessData = business;
+    window.routicketProducts = business.productos;
+    let menuData = business.productos;
+
+    let cart = isMenuLight ? [] : JSON.parse(localStorage.getItem('donMarioCart') || '[]');
+    let currentCategory = 'Todas';
+    let searchTerm = '';
+    let toastTimer;
+    let deliveryLocation = JSON.parse(localStorage.getItem('donMarioDelivery') || 'null');
+    let activeQrOrder = null;
+    let preloaderDone = false;
+    let preloaderStartedAt = performance.now();
+    let preloaderPulse = null;
+    let preloaderMinTimer = null;
+    const folio = `DM-${Date.now().toString().slice(-6)}`;
+    const money = amount => amount === '' || amount === null || typeof amount === 'undefined' ? 'Por confirmar' : new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN'}).format(Number(amount || 0));
+    const displayPrice = product => product.priceLabel || money(product.price);
+    const quantityFor = id => cart.find(item => item.id === id)?.quantity || 0;
+    const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
+    const CATEGORY_ACCENT = [
+      [/pizza/i,'#c3271b'],[/pasta/i,'#e0a800'],[/gnocchi|ravioli/i,'#b8860b'],
+      [/the grill/i,'#8c4a33'],[/classic meat|carne/i,'#7a4a24'],[/the sea|mar/i,'#2b6f93'],
+      [/postre|gelato/i,'#d2849f'],[/cafeter/i,'#6b4f3a'],[/affogato/i,'#9b6ecf'],
+      [/sangria/i,'#b03264'],[/vinos tintos/i,'#7b1e3a'],[/vinos blancos|vino blan/i,'#c9b04a'],
+      [/salads|soups|ensalada/i,'#6c8f3f'],[/apetizer|carpaccio|antipasto/i,'#c97f2f'],
+      [/soft drink|agua|cerveza/i,'#2b6f94'],[/gin|vodka|ron|whisky|tequila|brandy|licor|aperitivo|cocktail/i,'#7a7f99'],
+      [/postres/i,'#d2849f']
+    ];
+    const categoryAccent = name => {
+      const text = String(name || '');
+      return text ? (CATEGORY_ACCENT.find(([re]) => re.test(text))?.[1] || '#ffcc00') : '#ffcc00';
+    };
+    const DON_MARIO_GALLERY = {
+      '2343': ['https://i.imgur.com/p6StW2T.jpeg'],
+      '2349': [
+        'https://i.imgur.com/1t7cpXl.jpeg',
+        'https://i.imgur.com/y7TzXdA.jpeg',
+        'https://i.imgur.com/CFbeNkd.jpeg',
+        'https://i.imgur.com/UK5qvLy.jpeg',
+        'https://i.imgur.com/4mcnzzx.jpeg'
+      ],
+      '2350': ['https://i.imgur.com/eylnmaj.jpeg'],
+      '2351': ['https://i.imgur.com/cgjeqUD.jpeg']
+    };
+    const productPhoto = product => {
+      const gallery = Array.isArray(product.gallery) && product.gallery.length
+        ? product.gallery.filter(Boolean).map(String)
+        : (DON_MARIO_GALLERY[String(product.id)] || []);
+      const image = String(gallery[0] || product.image || '').trim();
+      const fallbackImage = String(product.fallbackImage || '').trim();
+      if (!image) {
+        return `<div class="product-photo" aria-label="Espacio para foto de ${esc(product.name)}"><i class="fa-solid fa-camera"></i></div>`;
+      }
+      const thumbs = gallery.length > 1
+        ? `<div class="product-gallery" aria-label="Fotos de ${esc(product.name)}">${gallery.map((url, index) => `<img class="product-gallery-thumb" src="${esc(url)}" alt="${esc(product.name)} ${index + 1}" loading="lazy">`).join('')}</div>`
+        : '';
+      return `<div class="product-photo"><img src="${esc(image)}" alt="${esc(product.name)}" loading="lazy" data-fallback="${esc(fallbackImage)}" onerror="handleProductImageError(this)">${thumbs}</div>`;
+    };
+
+    function handleProductImageError(img) {
+      const fallback = String(img.dataset.fallback || '').trim();
+      if (fallback && img.src !== fallback) {
+        img.src = fallback;
+        img.dataset.fallback = '';
+        return;
+      }
+      img.parentElement.innerHTML = '<i class="fa-solid fa-camera"></i>';
+    }
+
+    function getCategoryFromUrl() {
+      const value = new URLSearchParams(window.location.search).get('categoria');
+      if (!value) return 'Todas';
+      try {
+        return decodeURIComponent(value);
+      } catch (error) {
+        return value;
+      }
+    }
+
+    function updateCategoryUrl(category) {
+      const url = new URL(window.location.href);
+      if (category && category !== 'Todas') {
+        url.searchParams.set('categoria', category);
+      } else {
+        url.searchParams.delete('categoria');
+      }
+      if (url.searchParams.get('menu_light') !== '1') {
+        url.searchParams.delete('menu_light');
+      }
+      if (url.searchParams.get('qrscan') === '1') {
+        url.searchParams.delete('qrscan');
+      }
+      url.search = url.searchParams.toString() ? `?${url.searchParams.toString()}` : '';
+      history.replaceState({}, '', `${url.origin}${url.pathname}${url.search}`);
+    }
+
+    function getMenuShareUrl() {
+      const url = new URL(window.location.href);
+      url.hash = '';
+      url.searchParams.delete('qrscan');
+      url.searchParams.delete('pedido');
+      url.searchParams.delete('menu');
+      const selectedCategory = currentCategory && currentCategory !== 'Todas' ? currentCategory : '';
+      if (selectedCategory) {
+        url.searchParams.set('categoria', selectedCategory);
+      } else {
+        url.searchParams.delete('categoria');
+      }
+      if (url.searchParams.get('menu_light') !== '1') {
+        url.searchParams.delete('menu_light');
+      }
+      url.search = url.searchParams.toString() ? `?${url.searchParams.toString()}` : '';
+      return `${url.origin}${url.pathname}${url.search}`;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const preloader = document.getElementById('preloader');
+      const preloaderFill = document.getElementById('preloader-bar-fill');
+      const preloaderPercent = document.getElementById('preloader-percent');
+      const minDurationMs = 6000;
+      let progress = 0;
+      const paintProgress = value => {
+        const next = Math.max(0, Math.min(100, Math.round(value)));
+        if (preloaderFill) preloaderFill.style.width = `${next}%`;
+        if (preloaderPercent) preloaderPercent.textContent = `${next}%`;
+      };
+      const finishPreloader = () => {
+        if (preloaderDone) return;
+        preloaderDone = true;
+        clearInterval(preloaderPulse);
+        clearTimeout(preloaderMinTimer);
+        paintProgress(100);
+        setTimeout(() => {
+          document.body.classList.remove('is-loading');
+          preloader?.classList.add('hidden');
+        }, 180);
+      };
+      paintProgress(0);
+      preloaderPulse = setInterval(() => {
+        if (progress < 92) {
+          progress += progress < 25 ? 7 : progress < 60 ? 4 : 2;
+          paintProgress(progress);
+        }
+      }, 120);
+      preloaderMinTimer = setTimeout(finishPreloader, minDurationMs);
+      window.addEventListener('load', () => {
+        const elapsed = performance.now() - preloaderStartedAt;
+        const remaining = Math.max(0, minDurationMs - elapsed);
+        clearTimeout(preloaderMinTimer);
+        preloaderMinTimer = setTimeout(finishPreloader, remaining);
+      }, {once:true});
+
+      if (isMenuLight) {
+        document.title = 'Don Mario · Menú de lectura';
+        document.getElementById('hero-subtitle').textContent = 'Consulta el menú, categorías, descripciones y precios.';
+        document.getElementById('menu-light-banner')?.classList.remove('hidden');
+      }
+      currentCategory = getCategoryFromUrl();
+      const menuHeading = document.getElementById('menu-heading');
+      const menuShell = document.getElementById('menu-filters-shell');
+      const updateMenuChrome = () => {
+        const compact = window.scrollY > 120;
+        menuHeading?.classList.toggle('is-hidden', compact);
+        menuShell?.classList.toggle('compact', compact);
+      };
+      const searchInput = document.getElementById('menu-search');
+      const clearSearchButton = document.getElementById('clear-search');
+      const syncSearch = () => {
+        searchTerm = String(searchInput.value || '').trim().toLowerCase();
+        clearSearchButton.classList.toggle('hidden', !searchTerm);
+        renderProducts();
+      };
+      let searchDebounce;
+      searchInput.addEventListener('input', () => {
+        clearSearchButton.classList.toggle('hidden', !String(searchInput.value || '').trim());
+        clearTimeout(searchDebounce);
+        searchDebounce = setTimeout(syncSearch, 150);
+      });
+      searchInput.addEventListener('search', () => { clearTimeout(searchDebounce); syncSearch(); });
+      searchInput.addEventListener('change', () => { clearTimeout(searchDebounce); syncSearch(); });
+      clearSearchButton.addEventListener('click', () => {
+        clearTimeout(searchDebounce);
+        searchInput.value = '';
+        searchTerm = '';
+        clearSearchButton.classList.add('hidden');
+        searchInput.focus();
+        renderProducts();
+      });
+      window.addEventListener('scroll', updateMenuChrome, {passive:true});
+      updateMenuChrome();
+
+      const heroSubtitle = document.getElementById('hero-subtitle');
+      const heroPromos = [
+        'Consulta el menú, categorías, descripciones y precios.',
+        'Ingredientes frescos y horno de leña todos los días.',
+        'Agrega todo a tu carrito en un toque y págale al mesero con tu QR.',
+      ];
+      if (!isMenuLight && heroSubtitle) {
+        let pi = 0;
+        const runHeroPromo = (next) => {
+          if (next) {
+            heroSubtitle.classList.remove('promo-fade');
+            void heroSubtitle.offsetWidth;
+          }
+          heroSubtitle.textContent = heroPromos[pi % heroPromos.length];
+          heroSubtitle.classList.add('promo-fade');
+          pi++;
+        };
+        runHeroPromo(true);
+        setInterval(runHeroPromo, 6000);
+      }
+      renderCategories();
+      renderProducts();
+      loadRouticketStoreData();
+      if (!isMenuLight) {
+        updateCartUI();
+        renderDeliveryLocation();
+      }
+    });
+
+    function meaningful(value) {
+      const text = String(value ?? '').trim();
+      return text !== '' && text !== '0' && text.toLowerCase() !== 'null' && text.toLowerCase() !== 'undefined';
+    }
+
+    const RECOMMENDED_CATEGORY = 'Recomendados';
+    const hasProductImage = product => meaningful(product?.image);
+
+    function normalizeStoreProduct(product, index) {
+      return {
+        id: Number(product.id || index + 1),
+        name: product.name || 'Producto',
+        name_en: product.name_en || '',
+        description: product.description || 'Disponible en Don Mario.',
+        description_en: product.description_en || '',
+        price: Number(product.price || 0),
+        priceLabel: product.priceLabel || '',
+        image: product.image || '',
+        gallery: Array.isArray(product.gallery) ? product.gallery : (DON_MARIO_GALLERY[String(product.id)] || []),
+        fallbackImage: product.fallbackImage || business.foto || '',
+        id_categoria: Number(product.id_categoria || 0),
+        category_name: product.category_name || 'Productos'
+      };
+    }
+
+    async function loadRouticketStoreData() {
+      try {
+        const response = await fetch(`${STORE_API_URL}&_=${Date.now()}`, {cache:'no-store'});
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const payload = await response.json();
+        const remote = payload && payload.success && payload.data ? payload.data : null;
+        if (!remote || !Array.isArray(remote.productos) || !remote.productos.length) return;
+
+        const localBusiness = business;
+        business = {
+          ...localBusiness,
+          ...remote,
+          tel: meaningful(remote.tel) ? remote.tel : localBusiness.tel,
+          url: meaningful(remote.url) ? remote.url : localBusiness.url,
+          direccion: meaningful(remote.direccion) ? remote.direccion : localBusiness.direccion,
+          foto: meaningful(remote.foto) ? remote.foto : localBusiness.foto,
+          foto_ticket: meaningful(remote.foto_ticket) ? remote.foto_ticket : localBusiness.foto_ticket
+        };
+        business.productos = sortMenuProducts(remote.productos.map(normalizeStoreProduct));
+        menuData = business.productos;
+        apiResponse.data = business;
+        window.routicketBusinessResponse = apiResponse;
+        window.routicketBusinessData = business;
+        window.routicketProducts = menuData;
+        const availableCategories = new Set(menuData.map(product => product.category_name));
+        const hasRequestedCategory = new URLSearchParams(window.location.search).has('categoria');
+        if (!hasRequestedCategory && menuData.some(hasProductImage)) currentCategory = RECOMMENDED_CATEGORY;
+        if (currentCategory !== RECOMMENDED_CATEGORY && !availableCategories.has(currentCategory)) currentCategory = 'Todas';
+        document.getElementById('current-category-title').textContent = currentCategory === 'Todas' ? 'Nuestro Menú' : currentCategory;
+        if (!hasRequestedCategory && currentCategory === RECOMMENDED_CATEGORY) updateCategoryUrl(RECOMMENDED_CATEGORY);
+        renderCategories();
+        renderProducts();
+        if (!isMenuLight) updateCartUI();
+      } catch (error) {
+        console.warn('No se pudo cargar tienda Routicket, usando fallback local', error);
+      }
+    }
+
+    function isBeverageCategory(category) {
+      const text = String(category || '').toLowerCase();
+      return [
+        'bebida',
+        'drink',
+        'water',
+        'cerveza',
+        'beer',
+        'sangria',
+        'gin',
+        'aperitivo',
+        'aperitivi',
+        'licor',
+        'brandy',
+        'cognac',
+        'ron',
+        'whisky',
+        'tequila',
+        'vodka',
+        'cocktail',
+        'coctel',
+        'cafeter',
+        'vino'
+      ].some(keyword => text.includes(keyword));
+    }
+
+    function renderCategories() {
+      const list = document.getElementById('category-list');
+      list.innerHTML = '';
+      const categories = [
+        ...(menuData.some(hasProductImage) ? [RECOMMENDED_CATEGORY] : []),
+        'Todas',
+        ...new Set(menuData.map(item => item.category_name))
+      ];
+      categories.forEach(category => {
+        const item = document.createElement('li');
+        const button = document.createElement('button');
+        button.className = `whitespace-nowrap px-4 py-2 rounded-full text-sm font-bold transition ${currentCategory === category ? 'bg-vino text-white shadow' : 'bg-white text-stone-600 border border-stone-200 hover:border-vino'}`;
+        button.textContent = category;
+        button.onclick = () => {
+          currentCategory = category;
+          document.getElementById('current-category-title').textContent = category === 'Todas' ? 'Nuestro Menú' : category;
+          updateCategoryUrl(category);
+          renderCategories();
+          renderProducts();
+        };
+        item.appendChild(button);
+        list.appendChild(item);
+      });
+    }
+
+    function renderProducts() {
+      const grid = document.getElementById('products-grid');
+      const empty = document.getElementById('products-empty');
+      const status = document.getElementById('menu-search-status');
+      grid.innerHTML = '';
+      const categoryProducts = currentCategory === RECOMMENDED_CATEGORY
+        ? menuData.filter(hasProductImage)
+        : currentCategory === 'Todas'
+          ? menuData
+          : menuData.filter(p => p.category_name === currentCategory);
+      const products = searchTerm ? categoryProducts.filter(productMatchesSearch) : categoryProducts;
+      status.textContent = searchTerm
+        ? `${products.length} resultado${products.length === 1 ? '' : 's'} para "${searchTerm}"`
+        : `Mostrando ${products.length} producto${products.length === 1 ? '' : 's'}`;
+      empty.classList.toggle('hidden', products.length > 0);
+      grid.classList.toggle('hidden', products.length === 0);
+      const renderKey = `${currentCategory}|${searchTerm}`;
+      const shouldAnimate = renderKey !== (grid.dataset.animKey || '');
+      grid.dataset.animKey = renderKey;
+      products.forEach((product, index) => {
+        const qty = quantityFor(product.id);
+        const hasPrice = product.price !== '' && product.price !== null && typeof product.price !== 'undefined';
+        const accent = categoryAccent(product.category_name);
+        const card = document.createElement('article');
+        card.className = 'paper product-card rounded-2xl border border-stone-200 p-5 hover:border-oro/70 hover:shadow-md transition';
+        card.style.setProperty('--acc', accent);
+        if (shouldAnimate) {
+          card.style.animation = `rtkCardIn .55s cubic-bezier(.22,1,.36,1) ${Math.min(index, 8) * 45}ms both`;
+        }
+        card.innerHTML = `
+          <div class="product-top">
+            <div class="min-w-0">
+              <p class="text-[9px] uppercase tracking-[.2em] text-oliva font-bold mb-2"><span class="cat-dot" style="background:${accent}"></span>${esc(product.category_name)}</p>
+              <h3 class="prod-title text-[38px] leading-[.95] text-vino">${esc(product.name)}</h3>
+            </div>
+            ${productPhoto(product)}
+          </div>
+          <p class="product-desc text-stone-500 text-sm leading-relaxed my-4">${esc(product.description)}</p>
+          <div class="product-bottom">
+            <span class="prod-price font-black text-lg text-vino whitespace-nowrap">${esc(displayPrice(product))}</span>
+            ${isMenuLight ? '' : `<div class="flex justify-end">
+            ${qty === 0 ? `
+              <button onclick="addToCart(${product.id})" class="w-10 h-10 rounded-full ${hasPrice ? 'bg-rosso hover:bg-vino' : 'bg-oliva hover:bg-vino'} text-white shadow hover:scale-105 transition" aria-label="Agregar ${esc(product.name)}${hasPrice ? '' : ' (a confirmar)'}" title="${hasPrice ? 'Agregar' : 'Agregar · precio a confirmar'}">
+                <i class="fa-solid fa-plus"></i>
+              </button>` : `
+              <div class="flex items-center bg-vino text-white rounded-full shadow">
+                <button onclick="updateQuantity(${product.id},-1)" class="w-9 h-9 rounded-full hover:bg-white/10" aria-label="Quitar uno"><i class="fa-solid fa-minus text-xs"></i></button>
+                <span class="font-black min-w-7 text-center">${qty}</span>
+                <button onclick="updateQuantity(${product.id},1)" class="w-9 h-9 rounded-full hover:bg-white/10" aria-label="Agregar uno"><i class="fa-solid fa-plus text-xs"></i></button>
+              </div>`}
+            </div>`}
+          </div>`;
+        grid.appendChild(card);
+      });
+    }
+
+    function productMatchesSearch(product) {
+      const haystack = [
+        product.name,
+        product.name_en,
+        product.description,
+        product.description_en,
+        product.category_name,
+        displayPrice(product)
+      ].join(' ').toLowerCase();
+      return haystack.includes(searchTerm);
+    }
+
+    function addToCart(id) {
+      const product = menuData.find(item => item.id === id);
+      const found = cart.find(item => item.id === id);
+      found ? found.quantity++ : cart.push({...product, quantity: 1});
+      saveAndRefresh();
+      showToast(`${product.name} agregado${(product.price === '' || product.price === null || typeof product.price === 'undefined') ? ' · precio a confirmar' : ''}`);
+    }
+
+    function updateQuantity(id, change) {
+      const item = cart.find(product => product.id === id);
+      if (!item) return;
+      item.quantity += change;
+      if (item.quantity <= 0) cart = cart.filter(product => product.id !== id);
+      saveAndRefresh();
+    }
+
+    function saveAndRefresh() {
+      localStorage.setItem('donMarioCart', JSON.stringify(cart));
+      renderProducts();
+      updateCartUI();
+    }
+
+    const lineTotal = item => {
+      const p = item.price;
+      return (p === '' || p === null || typeof p === 'undefined') ? 0 : Number(p) * item.quantity;
+    };
+    const cartTotalValue = () => cart.reduce((sum, item) => sum + lineTotal(item), 0);
+    const cartHasUndetermined = () => cart.some(item => item.price === '' || item.price === null || typeof item.price === 'undefined');
+
+    function updateCartUI() {
+      const count = cart.reduce((sum,item) => sum + item.quantity, 0);
+      const total = cartTotalValue();
+      const badge = document.getElementById('cart-badge');
+      badge.textContent = count;
+      badge.classList.toggle('hidden', !count);
+      document.getElementById('floating-cart').classList.toggle('hidden', !count);
+      document.getElementById('floating-cart').classList.toggle('flex', !!count);
+      document.getElementById('floating-count').textContent = `${count} ${count === 1 ? 'platillo' : 'platillos'}`;
+      document.getElementById('floating-total').textContent = money(total);
+      document.getElementById('cart-total').textContent = money(total);
+      document.getElementById('qr-button').disabled = !count;
+      document.getElementById('whatsapp-button').disabled = !count;
+      const container = document.getElementById('cart-items');
+      if (!count) {
+        container.innerHTML = `<div class="h-full grid place-items-center text-center text-stone-400"><div><i class="fa-solid fa-cloche text-5xl mb-3"></i><p class="font-display text-2xl text-stone-500">La mesa está lista</p><p class="text-sm">Agrega algo delicioso del menú.</p></div></div>`;
+        return;
+      }
+      container.innerHTML = cart.map(item => {
+        const undetermined = item.price === '' || item.price === null || typeof item.price === 'undefined';
+        return `
+        <div class="bg-white border border-stone-200 rounded-xl p-3 flex items-center gap-3">
+          <span class="w-9 h-9 rounded-full bg-crema text-vino font-black grid place-items-center">${item.quantity}</span>
+          <div class="flex-1 min-w-0"><h4 class="font-bold text-sm truncate">${item.name}</h4><p class="text-xs ${undetermined ? 'text-oliva font-semibold' : 'text-stone-500'}">${undetermined ? 'Precio a confirmar' : money(lineTotal(item))}</p></div>
+          <div class="flex items-center gap-1">
+            <button onclick="updateQuantity(${item.id},-1)" class="w-8 h-8 rounded-full border border-stone-200" aria-label="Quitar uno">−</button>
+            <button onclick="updateQuantity(${item.id},1)" class="w-8 h-8 rounded-full bg-oliva text-white" aria-label="Agregar uno">+</button>
+          </div>
+        </div>`;
+      }).join('') + (cartHasUndetermined() ? `<p class="text-[11px] text-oliva font-semibold px-1">* Algunos precios se confirmarán al entregar tu pedido.</p>` : '');
+    }
+
+    function toggleCart() {
+      const overlay = document.getElementById('cart-overlay');
+      const modal = document.getElementById('cart-modal');
+      if (overlay.classList.contains('hidden')) {
+        overlay.classList.remove('hidden');
+        requestAnimationFrame(() => {
+          overlay.classList.remove('opacity-0');
+          modal.classList.remove('translate-x-full');
+        });
+      } else {
+        overlay.classList.add('opacity-0');
+        modal.classList.add('translate-x-full');
+        setTimeout(() => overlay.classList.add('hidden'), 300);
+      }
+    }
+
+    function orderText() {
+      const total = cartTotalValue();
+      const lines = [`DON MARIO · ORDEN ${folio}`, ...cart.map(item => `${item.quantity}x ${item.name} — ${(item.price === '' || item.price === null || typeof item.price === 'undefined') ? 'a confirmar' : money(lineTotal(item))}`), `TOTAL: ${money(total)}`];
+      if (cartHasUndetermined()) lines.push('(Algunos precios a confirmar al entregar)');
+      if (deliveryLocation) {
+        lines.push(`ENVÍO: ${deliveryAddressText(deliveryLocation)}`);
+        lines.push(`MAPA: https://maps.google.com/?q=${deliveryLocation.lat},${deliveryLocation.lng}`);
+      }
+      return lines.join('\n');
+    }
+
+    function deliveryAddressText(location) {
+      if (!location) return '';
+      const address = String(location.address || '').trim();
+      if (address) return address;
+      if (location.lat && location.lng) return `${location.lat}, ${location.lng}`;
+      return 'Ubicación marcada sin dirección escrita';
+    }
+
+    function compactOrderJSON() {
+      const payload = {
+        v: 1,
+        folio,
+        items: cart.map(item => ({id: item.id, q: item.quantity}))
+      };
+      if (deliveryLocation) {
+        payload.envio = {
+          lat: deliveryLocation.lat,
+          lng: deliveryLocation.lng,
+          address: deliveryAddressText(deliveryLocation)
+        };
+      }
+      return JSON.stringify(payload);
+    }
+
+    function encodeOrderPayload(payload) {
+      const raw = typeof payload === 'string' ? payload : JSON.stringify(payload);
+      return btoa(unescape(encodeURIComponent(raw))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
+    }
+
+    function orderQrUrl(payload) {
+      return `https://routicket.com/negocios/don-mario/mesero.html?pedido=${encodeURIComponent(encodeOrderPayload(payload))}`;
+    }
+
+    function saveOrderSnapshot() {
+      const snapshot = {
+        folio,
+        created_at: new Date().toISOString(),
+        items: cart.map(item => ({
+          id: item.id,
+          q: item.quantity,
+          name: item.name,
+          price: item.price === '' || item.price === null || typeof item.price === 'undefined' ? null : item.price,
+          subtotal: lineTotal(item)
+        })),
+        total: cartTotalValue(),
+        envio: deliveryLocation ? {...deliveryLocation} : null,
+        qr_payload: JSON.parse(compactOrderJSON())
+      };
+      localStorage.setItem('donMarioLastQrOrder', JSON.stringify(snapshot));
+      const history = JSON.parse(localStorage.getItem('donMarioOrderHistory') || '[]');
+      const previousOrders = history.filter(order => order.folio !== folio);
+      localStorage.setItem('donMarioOrderHistory', JSON.stringify([snapshot, ...previousOrders].slice(0, 10)));
+      return snapshot;
+    }
+
+    async function persistOrder(snapshot) {
+      try {
+        const response = await fetch('api/orders.php', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(snapshot)
+        });
+        if (!response.ok) throw new Error('save-order');
+        const result = await response.json();
+        const history = JSON.parse(localStorage.getItem('donMarioOrderHistory') || '[]');
+        const updated = history.map(order => order.folio === snapshot.folio ? {...order, status: result.data.status, server_saved: true} : order);
+        localStorage.setItem('donMarioOrderHistory', JSON.stringify(updated));
+      } catch (error) {
+        const history = JSON.parse(localStorage.getItem('donMarioOrderHistory') || '[]');
+        const updated = history.map(order => order.folio === snapshot.folio ? {...order, server_saved: false} : order);
+        localStorage.setItem('donMarioOrderHistory', JSON.stringify(updated));
+      }
+    }
+
+    function showOrderQR() {
+      if (!cart.length) return;
+      const qr = document.getElementById('qrcode');
+      qr.innerHTML = '';
+      document.getElementById('qr-folio').textContent = `Folio ${folio}`;
+      try {
+        const snapshot = saveOrderSnapshot();
+        activeQrOrder = snapshot;
+        persistOrder(snapshot);
+        new QRCode(qr, {
+          text: orderQrUrl(snapshot.qr_payload),
+          width: 220,
+          height: 220,
+          colorDark: '#292524',
+          colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+        document.getElementById('qr-overlay').classList.remove('hidden');
+        document.getElementById('qr-overlay').classList.add('grid');
+      } catch (error) {
+        showToast('No se pudo crear el QR. Intenta nuevamente.');
+      }
+    }
+
+    function closeOrderQR() {
+      document.getElementById('qr-overlay').classList.add('hidden');
+      document.getElementById('qr-overlay').classList.remove('grid');
+    }
+
+    function showMyOrders() {
+      const history = JSON.parse(localStorage.getItem('donMarioOrderHistory') || '[]');
+      const list = document.getElementById('my-orders-list');
+      if (!history.length) {
+        list.innerHTML = '<div class="py-14 text-center text-stone-400"><i class="fa-solid fa-receipt text-4xl mb-3"></i><p>Aún no tienes pedidos guardados.</p></div>';
+      } else {
+        list.innerHTML = history.map(order => {
+          const date = new Date(order.created_at);
+          const status = order.status || 'pendiente';
+          const statusLabels = {pendiente:'Pendiente',preparacion:'En preparación',en_camino:'En camino',entregado:'Entregado'};
+          return `
+            <article class="bg-white border border-stone-200 rounded-2xl p-4">
+              <div class="flex justify-between gap-3 mb-3">
+                <div>
+                  <h4 class="font-black text-vino">${order.folio}</h4>
+                  <p class="text-xs text-stone-500">${date.toLocaleDateString('es-MX')} · ${date.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'})}</p>
+                </div>
+                <span class="h-fit bg-amber-100 text-amber-900 px-2 py-1 rounded-full text-[10px] font-bold">${statusLabels[status] || status}</span>
+              </div>
+              <div class="space-y-1 text-sm text-stone-600">
+                ${order.items.map(item => `<p><b>${item.q}×</b> ${item.name}</p>`).join('')}
+              </div>
+              <div class="flex justify-between border-t mt-3 pt-3 font-black"><span>Total</span><span>${money(order.total)}</span></div>
+              <button onclick="showHistoryQR('${order.folio}')" class="mt-3 w-full border border-vino text-vino rounded-xl py-2.5 text-sm font-bold">
+                <i class="fa-solid fa-qrcode mr-2"></i>Ver QR y compartir
+              </button>
+            </article>`;
+        }).join('');
+      }
+      document.getElementById('my-orders-overlay').classList.remove('hidden');
+      document.getElementById('my-orders-overlay').classList.add('grid');
+    }
+
+    function showHistoryQR(orderFolio) {
+      const history = JSON.parse(localStorage.getItem('donMarioOrderHistory') || '[]');
+      const order = history.find(item => item.folio === orderFolio);
+      if (!order) {
+        showToast('No se encontró el pedido');
+        return;
+      }
+      const payload = order.qr_payload || {
+        v: 1,
+        folio: order.folio,
+        items: order.items.map(item => ({id: item.id, q: item.q}))
+      };
+      if (!payload.envio && order.envio) {
+        payload.envio = {lat: order.envio.lat, lng: order.envio.lng, address: deliveryAddressText(order.envio)};
+      }
+      order.qr_payload = payload;
+      const qr = document.getElementById('qrcode');
+      qr.innerHTML = '';
+      document.getElementById('qr-folio').textContent = `Folio ${order.folio}`;
+      try {
+        activeQrOrder = order;
+        new QRCode(qr, {
+          text: orderQrUrl(payload),
+          width: 220,
+          height: 220,
+          colorDark: '#292524',
+          colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+        document.getElementById('qr-overlay').classList.remove('hidden');
+        document.getElementById('qr-overlay').classList.add('grid');
+      } catch (error) {
+        showToast('No se pudo reconstruir el QR');
+      }
+    }
+
+    function closeMyOrders() {
+      document.getElementById('my-orders-overlay').classList.add('hidden');
+      document.getElementById('my-orders-overlay').classList.remove('grid');
+    }
+
+    async function shareOrder() {
+      const order = activeQrOrder;
+      const text = order ? [
+        `DON MARIO · ORDEN ${order.folio}`,
+        ...order.items.map(item => `${item.q}x ${item.name} — ${money(item.subtotal)}`),
+        `TOTAL: ${money(order.total)}`,
+        order.qr_payload ? `LECTOR MESERO: ${orderQrUrl(order.qr_payload)}` : '',
+        order.envio ? `ENVÍO: ${deliveryAddressText(order.envio)}` : '',
+        order.envio ? `MAPA: https://maps.google.com/?q=${order.envio.lat},${order.envio.lng}` : ''
+      ].filter(Boolean).join('\n') : orderText();
+      if (navigator.share) {
+        try { await navigator.share({title:'Orden Don Mario', text}); } catch (error) {}
+      } else {
+        await navigator.clipboard.writeText(text);
+        showToast('Orden copiada');
+      }
+    }
+
+    function renderDeliveryLocation() {
+      const box = document.getElementById('delivery-address');
+      const text = document.getElementById('delivery-address-text');
+      const buttonText = document.getElementById('location-button-text');
+      if (!deliveryLocation) {
+        box.classList.add('hidden');
+        buttonText.textContent = 'Marcar envío y ubicación';
+        return;
+      }
+      text.textContent = deliveryAddressText(deliveryLocation);
+      buttonText.textContent = 'Actualizar ubicación de envío';
+      box.classList.remove('hidden');
+    }
+
+    function markDeliveryLocation() {
+      if (!navigator.geolocation) {
+        showToast('Este dispositivo no permite obtener ubicación');
+        return;
+      }
+      const button = document.getElementById('location-button');
+      const buttonText = document.getElementById('location-button-text');
+      button.disabled = true;
+      buttonText.textContent = 'Obteniendo ubicación…';
+      navigator.geolocation.getCurrentPosition(
+        async ({coords}) => {
+          const lat = Number(coords.latitude.toFixed(6));
+          const lng = Number(coords.longitude.toFixed(6));
+          let address = `${lat}, ${lng}`;
+          try {
+            const params = new URLSearchParams({
+              format: 'jsonv2',
+              lat: String(lat),
+              lon: String(lng),
+              zoom: '18',
+              addressdetails: '1',
+              'accept-language': 'es'
+            });
+            const response = await fetch(`https://nominatim.openstreetmap.org/reverse?${params}`);
+            if (!response.ok) throw new Error('reverse-geocoding');
+            const result = await response.json();
+            if (result.display_name) address = result.display_name;
+          } catch (error) {
+            showToast('Ubicación marcada; no se encontró la dirección');
+          }
+          deliveryLocation = {lat, lng, address};
+          localStorage.setItem('donMarioDelivery', JSON.stringify(deliveryLocation));
+          renderDeliveryLocation();
+          button.disabled = false;
+          showToast('Ubicación de envío marcada');
+        },
+        (error) => {
+          const messages = {
+            1: 'Permiso de ubicación rechazado',
+            2: 'No fue posible determinar tu ubicación',
+            3: 'La ubicación tardó demasiado'
+          };
+          button.disabled = false;
+          renderDeliveryLocation();
+          showToast(messages[error.code] || 'No se pudo obtener la ubicación');
+        },
+        {enableHighAccuracy: true, timeout: 12000, maximumAge: 60000}
+      );
+    }
+
+    function checkout() {
+      if (!cart.length) return;
+      const phoneNumber = business.tel.replace(/\D/g, '');
+      window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(`Hola Don Mario, deseo ordenar:\n\n${orderText()}\n\n¿Me confirman el tiempo de preparación?`)}`, '_blank', 'noopener');
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-message').textContent = message;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+    "meta": {
+        "format": "routicket-site-config",
+        "version": 1,
+        "updated_at": "2026-08-06T02:53:16+02:00"
+    },
+    "site": {
+        "business_name": "Da2",
+        "template_key": "restaurant-menu"
+    },
+    "data": {
+        "store_api_url": "https://routicket.com/tienda/get_tienda.php?id_tienda=15510",
+        "id_tienda": 15510
+    },
+    "settings": {
+        "accent": "#DA291C",
+        "secondary": "#FFC72C",
+        "headline": "Da2 Comida a Domicilio",
+        "subheadline": "Comida a domicilio · Pedidos por WhatsApp",
+        "service_line": "Comida preparada, combos y pedidos a domicilio",
+        "whatsapp": "529841400774",
+        "logo": "https://i.imgur.com/EoN5UT9.jpeg"
+    },
+    "store": {
+        "name": "Da2",
+        "status": "published"
+    }
+}

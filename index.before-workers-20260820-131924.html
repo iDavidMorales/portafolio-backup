@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portafolio Routicket | Sitios administrados</title>
+  <meta name="description" content="Portafolio de sitios web administrados con Routicket: menús, catálogos, pantallas, tiendas y dominios publicados.">
+  <meta name="theme-color" content="#00C2CB">
+  <link rel="apple-touch-icon" href="https://routicket.com/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="https://routicket.com/favicon.png">
+  <style>
+    :root{--turq:#00C2CB;--lime:#8BC34A;--ink:#1E1E1E;--white:#fff;--yellow:#FFCA28;--line:#dbe7ea;--muted:#607077;--panel:#f6fafb;--soft:#eef8f8}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--white);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+    a{color:inherit;text-decoration:none}
+    .shell{min-height:100vh;background:linear-gradient(180deg,#f8fdfe 0,#fff 42%)}
+    .top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);border-bottom:1px solid var(--line);backdrop-filter:blur(16px)}
+    .top-inner{max-width:1180px;margin:auto;padding:12px 18px;display:flex;align-items:center;gap:14px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:950;letter-spacing:0}
+    .brand-mark{width:38px;height:38px;border-radius:8px;background:var(--ink);display:grid;place-items:center;color:var(--turq);font-weight:950;box-shadow:0 12px 28px rgba(0,194,203,.2)}
+    .brand span{display:block;font-size:13px;color:var(--muted);font-weight:800;margin-top:2px}
+    .top-actions{margin-left:auto;display:flex;gap:8px}
+    .btn{min-height:40px;border:1px solid var(--line);border-radius:8px;background:#fff;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:9px 12px;font-size:13px;font-weight:900;cursor:pointer}
+    .btn.primary{background:var(--turq);border-color:var(--turq);color:#062629}
+    .hero{max-width:1180px;margin:auto;padding:28px 18px 18px;display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px;align-items:end}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;background:#eafafb;border:1px solid rgba(0,194,203,.24);color:#07666c;border-radius:999px;padding:8px 11px;font-size:12px;font-weight:950;text-transform:uppercase}
+    h1{font-size:clamp(2.4rem,7vw,5.4rem);line-height:.9;margin:14px 0 10px;letter-spacing:0;max-width:860px}
+    .lead{margin:0;color:#435259;font-size:clamp(1rem,2vw,1.22rem);line-height:1.5;max-width:720px;font-weight:650}
+    .stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .stat{background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px;box-shadow:0 12px 30px rgba(0,45,50,.06)}
+    .stat strong{display:block;font-size:28px;line-height:1;color:var(--ink)}
+    .stat span{display:block;margin-top:5px;color:var(--muted);font-size:12px;font-weight:850}
+    .toolbar{max-width:1180px;margin:0 auto;padding:10px 18px 16px;display:grid;grid-template-columns:minmax(240px,1fr) auto;gap:12px;align-items:start}
+    .search{position:relative}
+    .search input{width:100%;min-height:46px;border:1px solid var(--line);border-radius:8px;background:#fff;padding:11px 14px 11px 42px;font:inherit;font-weight:750;outline:none;box-shadow:0 10px 24px rgba(0,45,50,.04)}
+    .search input:focus{border-color:var(--turq);box-shadow:0 0 0 4px rgba(0,194,203,.14)}
+    .search:before{content:"⌕";position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:20px;color:#087077;font-weight:950}
+    .filters{display:flex;gap:8px;overflow:auto;padding-bottom:3px}
+    .chip{border:1px solid var(--line);background:#fff;color:#425057;border-radius:999px;padding:11px 13px;font-size:13px;font-weight:900;white-space:nowrap;cursor:pointer}
+    .chip.active{background:var(--ink);border-color:var(--ink);color:#fff}
+    .content{max-width:1180px;margin:auto;padding:0 18px 40px}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+    .site-card{border:1px solid var(--line);border-radius:8px;background:#fff;overflow:hidden;box-shadow:0 12px 30px rgba(0,45,50,.06);display:flex;flex-direction:column;min-height:100%}
+    .site-head{height:124px;position:relative;display:flex;align-items:flex-end;padding:14px;background:linear-gradient(135deg,var(--accent),#101719)}
+    .site-head:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(0,0,0,.34))}
+    .logo{position:relative;z-index:1;width:72px;height:72px;border-radius:16px;background:#fff;border:1px solid rgba(255,255,255,.5);display:grid;place-items:center;padding:8px;box-shadow:0 16px 34px rgba(0,0,0,.22);overflow:hidden}
+    .logo img{width:100%;height:100%;object-fit:contain;display:block}
+    .logo-fallback{font-size:24px;font-weight:950;color:var(--accent)}
+    .badges{position:absolute;z-index:2;top:10px;right:10px;display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+    .badge{border-radius:999px;background:rgba(255,255,255,.92);color:#102025;padding:6px 8px;font-size:11px;font-weight:950}
+    .body{padding:15px;display:grid;gap:10px;flex:1}
+    .body h2{margin:0;font-size:20px;line-height:1.08}
+    .slug{color:var(--muted);font-size:12px;font-weight:850}
+    .desc{margin:0;color:#4e5b61;line-height:1.42;font-size:13px;font-weight:650;min-height:38px}
+    .meta{display:flex;gap:7px;flex-wrap:wrap}
+    .pill{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:7px 9px;color:#3f4f55;font-size:12px;font-weight:850}
+    .links{margin-top:auto;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .links a{min-height:38px;border-radius:8px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:950;background:#fff}
+    .links a.main{background:var(--turq);border-color:var(--turq);color:#062629}
+    .empty{display:none;margin-top:12px;border:1px dashed var(--line);background:var(--panel);border-radius:8px;padding:26px;text-align:center;color:var(--muted);font-weight:850}
+    .foot{border-top:1px solid var(--line);padding:18px;text-align:center;color:var(--muted);font-size:12px;font-weight:800}
+    @media(max-width:960px){.hero{grid-template-columns:1fr}.stats{grid-template-columns:repeat(4,minmax(0,1fr))}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:680px){.top-inner{align-items:flex-start}.top-actions{display:none}.hero{padding-top:22px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.toolbar{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.site-head{height:112px}.links{grid-template-columns:1fr 1fr}h1{font-size:3rem}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="top">
+      <div class="top-inner">
+        <a class="brand" href="https://routicket.com/">
+          <span class="brand-mark">R</span>
+          <strong>Routicket<span>Portafolio de sitios</span></strong>
+        </a>
+        <div class="top-actions">
+          <a class="btn" href="https://routicket.com/vhost/?view=sitios">Panel VHost</a>
+          <a class="btn primary" href="https://routicket.com/plugins/pwapp/rtk-app/www/vhost.html">Mis sitios</a>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <span class="eyebrow">Radar de sitios Routicket</span>
+        <h1>Portafolio vivo de sitios administrados</h1>
+        <p class="lead">Vista operativa para revisar menús, catálogos, pantallas y dominios publicados desde Routicket.</p>
+      </div>
+      <div class="stats" aria-label="Resumen">
+        <div class="stat"><strong>19</strong><span>Sitios</span></div>
+        <div class="stat"><strong>8</strong><span>Publicados</span></div>
+        <div class="stat"><strong>8</strong><span>Dominios</span></div>
+        <div class="stat"><strong>19</strong><span>Pantallas</span></div>
+      </div>
+    </section>
+
+    <section class="toolbar" aria-label="Filtros">
+      <div class="search"><input id="search" type="search" autocomplete="off" placeholder="Buscar por negocio, slug o dominio"></div>
+      <div class="filters" id="filters">
+        <button class="chip active" type="button" data-kind="all">Todos</button>
+                  <button class="chip" type="button" data-kind="Catálogo">Catálogo</button>
+                  <button class="chip" type="button" data-kind="Menú">Menú</button>
+                  <button class="chip" type="button" data-kind="Sitio">Sitio</button>
+                  <button class="chip" type="button" data-kind="Tours">Tours</button>
+                <button class="chip" type="button" data-kind="published">Publicados</button>
+      </div>
+    </section>
+
+    <main class="content">
+      <div class="grid" id="siteGrid">
+                            <article class="site-card" data-kind="Sitio" data-status="waiting_dns" data-search="routicket portafolio routicket-portafolio portafolio-backup.xupplier.workers.dev sitio waiting_dns" style="--accent:#00C2CB">
+            <div class="site-head">
+              <div class="badges">
+                <span class="badge">Sitio</span>
+                <span class="badge">Waiting_dns</span>
+              </div>
+              <div class="logo">
+                                  <span class="logo-fallback">R</span>
+                              </div>
+            </div>
+            <div class="body">
+              <div>
+                <h2>Routicket Portafolio</h2>
+                <div class="slug">/negocios/routicket-portafolio/ · portafolio-backup.xupplier.workers.dev</div>
+              </div>
+              <p class="desc">Productos detectados desde un JSON compatible con Routicket.</p>
+              <div class="meta">
+                <span class="pill">product-detail</span>
+                <span class="pill">pending</span>
+                <span class="pill">pending</span>
+              </div>
+              <div class="links">
+                <a class="main" href="https://routicket.com/negocios/routicket-portafolio/">Sitio</a>
+                <a href="https://portafolio-backup.xupplier.workers.dev">Dominio</a>
+                <a href="https://routicket.com/negocios/routicket-portafolio/tienda.php">Tienda</a>
+                <a href="https://routicket.com/negocios/routicket-portafolio/pantalla.php">Pantalla</a>
+              </div>
+            </div>
+          </article>
+                            <article class="site-card" data-kind="Menú" data-status="published" data-search="el capi de playa elcapideplaya elcapideplaya.com menú published" style="--accent:#3b0b7f">
+            <div class="site-head">
+              <div class="badges">
+                <span class="badge">Menú</span>
+                <span class="badge">Publicado</span>
+              </div>
+              <div class="logo">
+                                  <img src="https://i.imgur.com/V1OHJdP.jpeg" alt="El Capi de Playa">
+                              </div>
+            </div>
+            <div class="body">
+              <div>
+                <h2>El Capi de Playa</h2>
+                <div class="slug">/negocios/elcapideplaya/ · elcapideplaya.com</div>
+              </div>
+              <p class="desc">Restaurante de Mariscos</p>
+              <div class="meta">
+                <span class="pill">rappi-menu</span>
+                <span class="pill">connected</span>
+                <span class="pill">active</span>
+              </div>
+              <div class="links">
+                <a class="main" href="https://routicket.com/negocios/elcapideplaya/">Sitio</a>
+                <a href="https://elcapideplaya.com">Dominio</a>
+                <a href="https://routicket.com/negocios/elcapideplaya/tienda.php">Tienda</a>
+                <a href="https://routicket.com/negocios/elcapideplaya/pantalla.php">Pantalla</a>
+              </div>
+            </div>
+          </article>
+                            <article class="site-card" data-kind="Sitio" data-status="existing" data-search="agencia jade jade agenciadeviajesjade.com sitio existing" style="--accent:#00C2CB">
+            <div class="site-head">
+              <div class="badges">
+                <span class="badge">Sitio</span>
+                <span class="badge">Existing</span>
+              </div>
+              <div class="logo">
+                                  <img src="https://i.imgur.com/4AScgSD.png" alt="Agencia Jade">
+                              </div>
+            </div>
+            <div class="body">
+              <div>
+                <h2>Agencia Jade</h2>
+                <div class="slug">/negocios/jade/ · agenciadeviajesjade.com</div>
+              </div>
+              <p class="desc">Sitio turistico existente con dominio dedicado; no sobrescribir.</p>
+              <div class="meta">
+                <span class="pill">existing</span>
+                <span class="pill">connected</span>
+                <span class="pill">active</span>
+              </div>
+              <div class="links">
+                <a class="main" href="https://routicket.com/negocios/jade/">Sitio</a>
+                <a href="https://agenciadeviajesjade.com">Dominio</a>
+                <a href="https://routicket.com/negocios/jade/tienda.php">Tienda</a>
+                <a href="https://routicket.com/negocios/jade/pantalla.php">Pantalla</a>
+              </div>
+            </div>
+          </article>
+                            <article class="site-card" data-kind="Menú" data-status="published" data-search="quitatattoo quitatattoo  menú published" style="--accent:#00C2CB">
+            <div class="site-head">
+              <div class="badges">
+                <span class="badge">Menú</span>
+                <span class="badge">Publicado</span>
+              </div>
+              <div class="logo">
+                                  <img src="https://i.imgur.com/OR1lb7n.png" alt="QuitaTattoo">
+                              </div>
+            </div>
+            <div class="body">
+              <div>
+                <h2>QuitaTattoo</h2>
+                <div class="slug">/negocios/quitatattoo/</div>
+              </div>
+              <p class="desc">Eliminación de Tatuajes con Láser</p>
+              <div class="meta">
+                <span class="pill">rappi-menu</span>
+                <span class="pill">pending</span>
+                <span class="pill">pending</span>
+              </div>
+              <div class="links">
+                <a class="main" href="https://routicket.com/negocios/quitatattoo/">Sitio</a>
+                <a href="https://routicket.com/negocios/quitatattoo/">Dominio</a>
+                <a href="https://routicket.com/negocios/quitatattoo/tienda.php">Tienda</a>
+                <a href="https://routicket.com/negocios/quitatattoo/pantalla.php">Pantalla</a>
+              </div>
+            </div>
+          </article>
+                            <article class="site-card" data-kind="Sitio" data-status="published" data-search="social auto post social-auto-post socialautopost.com sitio published" style="--accent:#cc00bb">
+            <div class="site-head">
+              <div class="badges">
+                <span class="badge">Sitio</span>
+                <span class="badge">Publicado</span>
+              </div>
+              <div class="logo">
+                                  <img src="https://i.imgur.com/Ls5pcbt.png" alt="Social Auto Post">
+                              </div>
+            </div>
+            <div class="body">
+              <div>
+                <h2>Social Auto Post</h2>
+                <div class="slug">/negocios/social-auto-post/ · socialautopost.com</div>
+              </div>
+              <p class="desc">Sistema para automatizar redes sociales</p>
+              <div class="meta">
+                <span class="pill">service-landing</span>
+                <span class="pill">external</span>
+                <span class="pill">external</span>
+              </div>
+              <div class="links">
+                <a class="main" href="https://routicket.com/negocios/social-auto-post/">Sitio</a>
+                <a href="https://socialautopost.com">Dominio</a>
+                <a href="https://routicket.com/negocios/social-auto-post/tienda.php">Tienda</a>
+                <a href="https://routicket.com/negocios/social-auto-post/pantalla.php">Pantalla</a>
+              </div>
+            </div>
+          </article>
+                            <article class="site-card" data-kind="Sitio" data-status="existing" data-search="don mario don-mario  sitio existing" style="--accent:#00C2CB">
+            <div class="site-head">
+              <div class="badges">
+                <span class="badge">Sitio</span>
+                <span class="badge">Existing</span>
+              </div>
+              <div class="logo">
+                                  <img src="https://i.imgur.com/hBJL051.jpeg" alt="Don Mario">
+                              </div>
+            </div>
+            <div class="body">
+              <div>
+                <h2>Don Mario</h2>
+                <div class="slug">/negocios/don-mario/</div>
+              </div>
+              <p class="desc">Menu/pedidos existente vinculado a usuario 1544 y tienda Routicket 15525; no sobrescribir.</p>
+              <div class="meta">
+                <span class="pill">existing</span>
+                <span class="pill">routicket_path</span>
+                <span class="pill">routicket_path</span>
+              </div>
+              <div class="links">
+                <a class="main" href="https://routicket.com/negocios/don-mario/">Sitio</a>
+                <a href="https://routicket.com/negocios/don-mario/">Dominio</a>
+                <a href="https://routicket.com/negocios/don-mario/tienda.php">Tienda</a>
+                <a href="https://routicket.com/negocios/don-mario/pantalla.php">Pantalla</a>
+              </div>
+            </div>
+          </article>
+                            <article class="site-card" data-kind="Menú" data-status="published" data-search="bong.mx bongmx bong.mx menú published" style="--accent:#cc0014">
+            <div class="site-head">
+              <div class="badges">
+                <span class="badge">Menú</span>
+                <span class="badge">Publicado</span>
+              </div>
+              <div class="logo">
+                                  <img src="https://i.imgur.com/1nOYHbz.png" alt="Bong.Mx">
+                              </div>
+            </div>
+            <div class="body">
+              <div>
+                <h2>Bong.Mx</h2>
+                <div class="slug">/negocios/bongmx/ · bong.mx</div>
+              </div>
+              <p class="desc">Productos disponibles con fotos, precio y categorias.</p>
+              <div class="meta">
+                <span class="pill">rappi-menu</span>
+                <span class="pill">external</span>
+                <span class="pill">external</span>
+              </div>
+              <div class="links">
+                <a class="main" href="https://routicket.com/negocios/bongmx/">Sitio</a>
+                <a href="https://bong.mx">Dominio</a>
+                <a href="https://routicket.com/negocios/bongmx/tienda.php">Tienda</a>
+                <a href="https://routicket.com/negocios/bongmx/pantalla.php">Pantalla</a>
+              </div>
+            </div>
+          </article>
+                            <article class="site-card" data-kind="Tours" data-status="existing" data-search="dana tours riviera maya danatoursrivieramaya danatoursrivieramaya.com tours existing" style="--accent:#00C2CB">
+            <div class="site-head">
+              <div class="badges">
+                <span class="badge">Tours</span>
+                <span class="badge">Existing</span>
+              </div>
+              <div class="logo">
+                                  <img src="https://i.imgur.com/KVwHRYl.png" alt="Dana Tours Riviera Maya">
+                              </div>
+            </div>
+            <div class="body">
+              <div>
+                <h2>Dana Tours Riviera Maya</h2>
+                <div class="slug">/negocios/danatoursrivieramaya/ · danatoursrivieramaya.com</div>
+              </div>
+              <p class="desc">Copia bajo esquema `negocios`; respeta archivos originales de tours, admin, cupones y promociones.</p>
+              <div class="meta">
+                <span class="pill">restaurant-menu</span>
+                <span class="pill">connected</span>
+                <span class="pill">active</span>
+              </div>
+              <div class="links">
+                <a class="main" href="https://routicket.com/negocios/danatoursrivieramaya/">Sitio</a>
+                <a href="https://danatoursrivieramaya.com">Dominio</a>
+                <a href="https://routicket.com/negocios/danatoursrivieramaya/tienda.php">Tienda</a>
+                <a href="https://routicket.com/negocios/danatoursrivieramaya/pantalla.php">Pantalla</a>
+              </div>
+            </div>
+          </article>
+                            <article class="site-card" data-kind="Menú" data-status="published" data-search="da2 comida a domicilio da2-comida-a-domicilio  menú published" style="--accent:#DA291C">
+            <div class="site-head">
+              <div class="badges">
+                <span class="badge">Menú</span>
+                <span class="badge">Publicado</span>
+              </div>
+              <div class="logo">
+                                  <img src="https://i.imgur.com/EoN5UT9.jpeg" alt="Da2 Comida a Domicilio">
+                              </div>
+            </div>
+            <div class="body">
+              <div>
+                <h2>Da2 Comida a Domicilio</h2>
+                <div class="slug">/negocios/da2-comida-a-domicilio/</div>
+              </div>
+              <p class="desc">Comida a domicilio · Pedidos por WhatsApp</p>
+              <div class="meta">
+                <span class="pill">restaurant-menu</span>
+                <span class="pill">routicket_path</span>
+                <span class="pill">routicket_path</span>
+              </div>
+              <div class="links">
+                <a class="main" href="https://routicket.com/negocios/da2-comida-a-domicilio/">Sitio</a>
+                <a href="https://routicket.com/negocios/da2-comida-a-domicilio/">Dominio</a>
+                <a href="https://routicket.com/negocios/da2-comida-a-domicilio/tienda.php">Tienda</a>
+                <a href="https://routicket.com/negocios/da2-comida-a-domicilio/pantalla.php">Pantalla</a>
+              </div>
+            </div>
+          </article>
+                            <article class="site-card" data-kind="Menú" data-status="alias" data-search="da2 comida a domicilio da2  menú alias" style="--accent:#00C2CB">
+            <div class="site-head">
+              <div class="badges">
+                <span class="badge">Menú</span>
+                <span class="badge">Alias</span>
+              </div>
+              <div class="logo">
+                                  <img src="https://routicket.com/negocios/da2/apple-touch-icon.png" alt="Da2 Comida a Domicilio">
+                              </div>
+            </div>
+            <div class="body">
+              <div>
+                <h2>Da2 Comida a Domicilio</h2>
+                <div class="slug">/negocios/da2/</div>
+              </div>
+              <p class="desc">Alias corto hacia el menu publicado.</p>
+              <div class="meta">
+                <span class="pill">rappi-menu</span>
+                <span class="pill">routicket_path</span>
+                <span class="pill">routicket_path</span>
+              </div>
+              <div class="links">
+                <a class="main" href="https://routicket.com/negocios/da2/">Sitio</a>
+                <a href="https://routicket.com/negocios/da2/">Dominio</a>
+                <a href="https://routicket.com/negocios/da2/tienda.php">Tienda</a>
+                <a href="https://routicket.com/negocios/da2/pantalla.php">Pantalla</a>
+              </div>
+            </div>
+          </article>
+                            <article class="site-card" data-kind="Catálogo" data-status="alias" data-search="biere carnallo biere bierecarnallo.mx catálogo alias" style="--accent:#00C2CB">
+            <div class="site-head">
+              <div class="badges">
+                <span class="badge">Catálogo</span>
+                <span class="badge">Alias</span>
+              </div>
+              <div class="logo">
+                                  <img src="https://i.imgur.com/8g5NKhC.jpeg" alt="Biere Carnallo">
+                              </div>
+            </div>
+            <div class="body">
+              <div>
+                <h2>Biere Carnallo</h2>
+                <div class="slug">/negocios/biere/ · bierecarnallo.mx</div>
+              </div>
+              <p class="desc">Alias seguro hacia la pantalla existente de Biere Carnallo; no sobrescribir.</p>
+              <div class="meta">
+                <span class="pill">smokeshop</span>
+                <span class="pill">routicket_path</span>
+                <span class="pill">routicket_path</span>
+              </div>
+              <div class="links">
+                <a class="main" href="https://routicket.com/negocios/biere/">Sitio</a>
+                <a href="https://bierecarnallo.mx">Dominio</a>
+                <a href="https://routicket.com/negocios/biere/tienda.php">Tienda</a>
+                <a href="https://routicket.com/negocios/biere/pantalla.php">Pantalla</a>
+              </div>
+            </div>
+          </article>
+                            <article class="site-card" data-kind="Sitio" data-status="published" data-search="biere carnallo bierecarnallo  sitio published" style="--accent:#00C2CB">
+            <div class="site-head">
+              <div class="badges">
+                <span class="badge">Sitio</span>
+                <span class="badge">Publicado</span>
+              </div>
+              <div class="logo">
+                                  <img src="https://i.imgur.com/8g5NKhC.jpeg" alt="Biere Carnallo">
+                              </div>
+            </div>
+            <div class="body">
+              <div>
+                <h2>Biere Carnallo</h2>
+                <div class="slug">/negocios/bierecarnallo/</div>
+              </div>
+              <p class="desc">Pantalla comercial existente; no sobrescribir.</p>
+              <div class="meta">
+                <span class="pill">existing</span>
+                <span class="pill">routicket_path</span>
+                <span class="pill">routicket_path</span>
+              </div>
+              <div class="links">
+                <a class="main" href="https://routicket.com/negocios/bierecarnallo/">Sitio</a>
+                <a href="https://routicket.com/negocios/bierecarnallo/">Dominio</a>
+                <a href="https://routicket.com/negocios/bierecarnallo/tienda.php">Tienda</a>
+                <a href="https://routicket.com/negocios/bierecarnallo/pantalla.php">Pantalla</a>
+              </div>
+            </div>
+          </article>
+                            <article class="site-card" data-kind="Sitio" data-status="existing" data-search="el caracol blanco elcaracolblanco  sitio existing" style="--accent:#00C2CB">
+            <div class="site-head">
+              <div class="badges">
+                <span class="badge">Sitio</span>
+                <span class="badge">Existing</span>
+              </div>
+              <div class="logo">
+                                  <img src="https://i.imgur.com/nQVsjYM.png" alt="El Caracol Blanco">
+                              </div>
+            </div>
+            <div class="body">
+              <div>
+                <h2>El Caracol Blanco</h2>
+                <div class="slug">/negocios/elcaracolblanco/</div>
+              </div>
+              <p class="desc">Sitio y pantalla existentes; no sobrescribir.</p>
+              <div class="meta">
+                <span class="pill">existing</span>
+                <span class="pill">routicket_path</span>
+                <span class="pill">routicket_path</span>
+              </div>
+              <div class="links">
+                <a class="main" href="https://routicket.com/negocios/elcaracolblanco/">Sitio</a>
+                <a href="https://routicket.com/negocios/elcaracolblanco/">Dominio</a>
+                <a href="https://routicket.com/negocios/elcaracolblanco/tienda.php">Tienda</a>
+                <a href="https://routicket.com/negocios/elcaracolblanco/pantalla.php">Pantalla</a>
+              </div>
+            </div>
+          </article>
+                            <article class="site-card" data-kind="Catálogo" data-status="existing" data-search="la paipa shop lapaipashop  catálogo existing" style="--accent:#00C2CB">
+            <div class="site-head">
+              <div class="badges">
+                <span class="badge">Catálogo</span>
+                <span class="badge">Existing</span>
+              </div>
+              <div class="logo">
+                                  <img src="https://routicket.com/negocios/lapaipashop/apple-touch-icon.png" alt="La Paipa Shop">
+                              </div>
+            </div>
+            <div class="body">
+              <div>
+                <h2>La Paipa Shop</h2>
+                <div class="slug">/negocios/lapaipashop/</div>
+              </div>
+              <p class="desc">Copia bajo esquema `negocios`; respeta tienda existente y proxy de productos Bong.Mx.</p>
+              <div class="meta">
+                <span class="pill">smokeshop</span>
+                <span class="pill">routicket_path</span>
+                <span class="pill">routicket_path</span>
+              </div>
+              <div class="links">
+                <a class="main" href="https://routicket.com/negocios/lapaipashop/">Sitio</a>
+                <a href="https://routicket.com/negocios/lapaipashop/">Dominio</a>
+                <a href="https://routicket.com/negocios/lapaipashop/tienda.php">Tienda</a>
+                <a href="https://routicket.com/negocios/lapaipashop/pantalla.php">Pantalla</a>
+              </div>
+            </div>
+          </article>
+                            <article class="site-card" data-kind="Sitio" data-status="existing" data-search="shemesh ym shemeshtxp shemeshtxp.com sitio existing" style="--accent:#00C2CB">
+            <div class="site-head">
+              <div class="badges">
+                <span class="badge">Sitio</span>
+                <span class="badge">Existing</span>
+              </div>
+              <div class="logo">
+                                  <img src="https://routicket.com/negocios/shemeshtxp/apple-touch-icon.png" alt="Shemesh YM">
+                              </div>
+            </div>
+            <div class="body">
+              <div>
+                <h2>Shemesh YM</h2>
+                <div class="slug">/negocios/shemeshtxp/ · shemeshtxp.com</div>
+              </div>
+              <p class="desc">Sitio de bienestar existente con dominio dedicado; no sobrescribir.</p>
+              <div class="meta">
+                <span class="pill">existing</span>
+                <span class="pill">connected</span>
+                <span class="pill">active</span>
+              </div>
+              <div class="links">
+                <a class="main" href="https://routicket.com/negocios/shemeshtxp/">Sitio</a>
+                <a href="https://shemeshtxp.com">Dominio</a>
+                <a href="https://routicket.com/negocios/shemeshtxp/tienda.php">Tienda</a>
+                <a href="https://routicket.com/negocios/shemeshtxp/pantalla.php">Pantalla</a>
+              </div>
+            </div>
+          </article>
+                            <article class="site-card" data-kind="Sitio" data-status="existing" data-search="martin electricista martinelectricista  sitio existing" style="--accent:#00C2CB">
+            <div class="site-head">
+              <div class="badges">
+                <span class="badge">Sitio</span>
+                <span class="badge">Existing</span>
+              </div>
+              <div class="logo">
+                                  <img src="https://routicket.com/negocios/martinelectricista/apple-touch-icon.png" alt="Martin Electricista">
+                              </div>
+            </div>
+            <div class="body">
+              <div>
+                <h2>Martin Electricista</h2>
+                <div class="slug">/negocios/martinelectricista/</div>
+              </div>
+              <p class="desc">Servicios del hogar, electricidad, climas y reparaciones. Pantalla comercial generada para mostrador.</p>
+              <div class="meta">
+                <span class="pill">existing</span>
+                <span class="pill">routicket_path</span>
+                <span class="pill">routicket_path</span>
+              </div>
+              <div class="links">
+                <a class="main" href="https://routicket.com/negocios/martinelectricista/">Sitio</a>
+                <a href="https://routicket.com/negocios/martinelectricista/">Dominio</a>
+                <a href="https://routicket.com/negocios/martinelectricista/tienda.php">Tienda</a>
+                <a href="https://routicket.com/negocios/martinelectricista/pantalla.php">Pantalla</a>
+              </div>
+            </div>
+          </article>
+                            <article class="site-card" data-kind="Sitio" data-status="draft" data-search="el david eldavid  sitio draft" style="--accent:#DA291C">
+            <div class="site-head">
+              <div class="badges">
+                <span class="badge">Sitio</span>
+                <span class="badge">Draft</span>
+              </div>
+              <div class="logo">
+                                  <img src="https://routicket.com/negocios/eldavid/apple-touch-icon.png" alt="El David">
+                              </div>
+            </div>
+            <div class="body">
+              <div>
+                <h2>El David</h2>
+                <div class="slug">/negocios/eldavid/</div>
+              </div>
+              <p class="desc">Hot dogs, hamburguesas y papas · Pedidos por WhatsApp</p>
+              <div class="meta">
+                <span class="pill">kiosk-screen</span>
+                <span class="pill">routicket_path</span>
+                <span class="pill">routicket_path</span>
+              </div>
+              <div class="links">
+                <a class="main" href="https://routicket.com/negocios/eldavid/">Sitio</a>
+                <a href="https://routicket.com/negocios/eldavid/">Dominio</a>
+                <a href="https://routicket.com/negocios/eldavid/tienda.php">Tienda</a>
+                <a href="https://routicket.com/negocios/eldavid/pantalla.php">Pantalla</a>
+              </div>
+            </div>
+          </article>
+                            <article class="site-card" data-kind="Menú" data-status="published" data-search="abarrotes memo abarrotes-memo  menú published" style="--accent:#007ecc">
+            <div class="site-head">
+              <div class="badges">
+                <span class="badge">Menú</span>
+                <span class="badge">Publicado</span>
+              </div>
+              <div class="logo">
+                                  <img src="https://i.imgur.com/VwWVyxe.jpeg" alt="Abarrotes Memo">
+                              </div>
+            </div>
+            <div class="body">
+              <div>
+                <h2>Abarrotes Memo</h2>
+                <div class="slug">/negocios/abarrotes-memo/</div>
+              </div>
+              <p class="desc">Venta de productos de abarrotes</p>
+              <div class="meta">
+                <span class="pill">restaurant-menu</span>
+                <span class="pill">routicket_path</span>
+                <span class="pill">routicket_path</span>
+              </div>
+              <div class="links">
+                <a class="main" href="https://routicket.com/negocios/abarrotes-memo/">Sitio</a>
+                <a href="https://routicket.com/negocios/abarrotes-memo/">Dominio</a>
+                <a href="https://routicket.com/negocios/abarrotes-memo/tienda.php">Tienda</a>
+                <a href="https://routicket.com/negocios/abarrotes-memo/pantalla.php">Pantalla</a>
+              </div>
+            </div>
+          </article>
+                            <article class="site-card" data-kind="Catálogo" data-status="published" data-search="routicket play routicket-play  catálogo published" style="--accent:#00C2CB">
+            <div class="site-head">
+              <div class="badges">
+                <span class="badge">Catálogo</span>
+                <span class="badge">Publicado</span>
+              </div>
+              <div class="logo">
+                                  <img src="https://routicket.com/negocios/routicket-play/icon-192.png?v=20260812" alt="Routicket Play">
+                              </div>
+            </div>
+            <div class="body">
+              <div>
+                <h2>Routicket Play</h2>
+                <div class="slug">/negocios/routicket-play/</div>
+              </div>
+              <p class="desc">Catalogo de codigos de Routicket Play (peliculas).</p>
+              <div class="meta">
+                <span class="pill">movies</span>
+                <span class="pill">pending</span>
+                <span class="pill">pending</span>
+              </div>
+              <div class="links">
+                <a class="main" href="https://routicket.com/negocios/routicket-play/">Sitio</a>
+                <a href="https://routicket.com/negocios/routicket-play/">Dominio</a>
+                <a href="https://routicket.com/negocios/routicket-play/tienda.php">Tienda</a>
+                <a href="https://routicket.com/negocios/routicket-play/pantalla.php">Pantalla</a>
+              </div>
+            </div>
+          </article>
+              </div>
+      <div class="empty" id="empty">No hay sitios con ese filtro.</div>
+    </main>
+
+    <footer class="foot">Actualizado desde VHost · 2026-08-20T17:26:36+00:00</footer>
+  </div>
+
+  <script>
+    (function(){
+      var search = document.getElementById('search');
+      var filters = document.getElementById('filters');
+      var cards = Array.prototype.slice.call(document.querySelectorAll('.site-card'));
+      var empty = document.getElementById('empty');
+      var activeKind = 'all';
+      function normalize(value){ return String(value || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+      function apply(){
+        var q = normalize(search.value);
+        var visible = 0;
+        cards.forEach(function(card){
+          var byKind = activeKind === 'all' || card.dataset.kind === activeKind || (activeKind === 'published' && card.dataset.status === 'published');
+          var byText = !q || normalize(card.dataset.search).indexOf(q) !== -1;
+          var show = byKind && byText;
+          card.style.display = show ? '' : 'none';
+          if (show) visible++;
+        });
+        empty.style.display = visible ? 'none' : 'block';
+      }
+      search.addEventListener('input', apply);
+      filters.addEventListener('click', function(event){
+        var btn = event.target.closest('[data-kind]');
+        if (!btn) return;
+        activeKind = btn.dataset.kind;
+        filters.querySelectorAll('.chip').forEach(function(chip){ chip.classList.toggle('active', chip === btn); });
+        apply();
+      });
+    })();
+  </script>
+</body>
+</html>

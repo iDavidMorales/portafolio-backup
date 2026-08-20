@@ -1,0 +1,145 @@
+{
+    "meta": {
+        "format": "routicket-site-config",
+        "version": 1,
+        "updated_at": "2026-08-15T00:00:00-05:00"
+    },
+    "site": {
+        "business_name": "Social Auto Post",
+        "template_key": "service-landing",
+        "domain": "https://socialautopost.com"
+    },
+    "settings": {
+        "headline": "Automatiza tus redes en un solo panel",
+        "subheadline": "Social Auto Post centraliza la gestión y automatización de redes sociales: conecta, crea, programa y analiza sin saltar entre herramientas.",
+        "logo": "https://i.imgur.com/Ls5pcbt.png",
+        "accent": "#0B2447",
+        "secondary": "#5B7DB1",
+        "yellow": "#C9A227",
+        "site_update_notifications": {
+            "enabled": true,
+            "recipients": [
+                "info@socialautopost.com",
+                "admin@socialautopost.com",
+                "support@socialautopost.com"
+            ],
+            "events": [
+                "actualizaciones del sitio",
+                "nuevos entregables",
+                "cambios de deploy",
+                "fixes de producción"
+            ],
+            "last_delivery": null
+        },
+        "pricing_note": "Precios en USD, modelo por marca. Sube, reduce o cancela tu plan en cualquier momento sin penalización; los cambios aplican en el siguiente ciclo de facturación.",
+        "age_notice": "Centraliza hasta 22 plataformas, genera contenido con IA y publica con aprobaciones de equipo desde un panel visual.",
+        "features_title": "Lo que puedes hacer",
+        "features_lead": "Una sola plataforma para planear, crear, publicar y medir todo tu contenido en redes sociales.",
+        "features": [
+            {
+                "title": "Editor y calendario visual",
+                "text": "Arrastra, suelta y programa publicaciones con vista previa en vivo, auto-publicación y flujos de aprobación para equipo y clientes."
+            },
+            {
+                "title": "Contenido con IA",
+                "text": "Genera copys y recursos con OpenAI y Claude, imágenes con DALL·E 3 y Adobe Firefly, y video con Google Vertex AI, Runway y Pika."
+            },
+            {
+                "title": "Publicación multicanal",
+                "text": "Programa para las 22 integraciones desde un solo calendario: Facebook, Instagram, X, LinkedIn, YouTube, TikTok, Pinterest y más."
+            },
+            {
+                "title": "Analítica y comparativa",
+                "text": "Reportes unificados por canal y marca, comparativa con competidores y paneles compartibles con tu equipo o clientes."
+            },
+            {
+                "title": "Colaboración segura",
+                "text": "Roles y permisos por miembro, espacios de equipo por marca y revisiones de contenido antes de publicar."
+            },
+            {
+                "title": "Web, blogs y email",
+                "text": "Conecta WordPress y blogs, campañas de email marketing y notificaciones a Slack y Discord desde el mismo flujo."
+            }
+        ],
+        "how_works_title": "Empieza en 4 pasos",
+        "how_works_lead": "Del primer borrador a la publicación automatizada en menos de un día.",
+        "how_works": [
+            {
+                "title": "Conecta tus cuentas",
+                "text": "Enlaza tus redes sociales, web, blogs y canales de email desde el panel con una autenticación segura."
+            },
+            {
+                "title": "Crea con IA o desde cero",
+                "text": "Escribe con asistencia de IA o arma tu contenido manualmente con vista previa en vivo por plataforma."
+            },
+            {
+                "title": "Programa y publica",
+                "text": "Arrastra tus piezas al calendario, define horarios por red y publica automáticamente o con aprobación de equipo."
+            },
+            {
+                "title": "Mide y mejora",
+                "text": "Revisa rendimiento por canal, compara con competidores y ajusta tu estrategia en reportes unificados."
+            }
+        ],
+        "services": [
+            {
+                "title": "Gestión social integral",
+                "description": "Conecta, crea, programa y analiza en un único espacio de trabajo seguro. Calendario de arrastrar y soltar, publicación multicanal y reportes unificados.",
+                "price_note": "Incluido en todo plan"
+            },
+            {
+                "title": "22 integraciones",
+                "description": "Redes sociales, web y blogs, Slack/Discord, email marketing y podcasts: Facebook, Instagram, X, LinkedIn, YouTube, TikTok, WordPress, Mailchimp y más.",
+                "price_note": "Configurable"
+            },
+            {
+                "title": "IA para contenido",
+                "description": "Genera copys y recursos con OpenAI y Claude, imágenes con DALL·E 3 y Adobe Firefly, y video con Google Vertex AI, Runway y Pika.",
+                "price_note": "Asistencia IA"
+            },
+            {
+                "title": "Plan Básico",
+                "description": "Para individuos y aficionados. Prueba de 14 días sin tarjeta: 1 cuenta social, 100 publicaciones al mes, panel básico y vista previa.",
+                "price": "Gratis",
+                "price_note": "14 días de prueba",
+                "features": [
+                    "1 cuenta social",
+                    "100 publicaciones programadas/mes",
+                    "Panel básico de análisis",
+                    "Vista previa de publicaciones"
+                ]
+            },
+            {
+                "title": "Plan Profesional",
+                "description": "El favorito para creadores y pequeñas empresas: todas las marcas de media e integraciones, publicaciones ilimitadas y análisis avanzado.",
+                "price": "$15/mes",
+                "price_note": "o $150/año",
+                "features": [
+                    "Integraciones y marcas incluidas",
+                    "Publicaciones programadas ilimitadas",
+                    "Análisis y reportes avanzados",
+                    "Comparativa de competidores",
+                    "Colaboración en equipo"
+                ],
+                "cta": "https://socialautopost.com"
+            },
+            {
+                "title": "Plan Empresa",
+                "description": "Para grandes equipos y agencias: soluciones a medida, integraciones personalizadas y soporte dedicado.",
+                "price": "A medida",
+                "price_note": "Contacto directo",
+                "features": [
+                    "Soluciones personalizadas",
+                    "Integraciones a medida",
+                    "Soporte dedicado",
+                    "Flujos de aprobación multi-marca"
+                ],
+                "cta": "https://socialautopost.com"
+            }
+        ]
+    },
+    "store": {
+        "name": "Social Auto Post",
+        "status": "published"
+    }
+}

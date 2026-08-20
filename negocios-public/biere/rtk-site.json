@@ -1,0 +1,24 @@
+{
+    "meta": {
+        "format": "routicket-site-config",
+        "version": 1,
+        "updated_at": "2026-08-06T02:53:16+02:00"
+    },
+    "site": {
+        "business_name": "Bière",
+        "template_key": "existing"
+    },
+    "data": {
+        "feed_url": "https://bierecarnallo.mx/rss-routicket/data.json"
+    },
+    "settings": {
+        "accent": "#00C2CB",
+        "secondary": "#8BC34A",
+        "headline": "Bière"
+        ,"logo": "https://i.imgur.com/8g5NKhC.jpeg"
+    },
+    "store": {
+        "name": "Bière",
+        "status": "published"
+    }
+}

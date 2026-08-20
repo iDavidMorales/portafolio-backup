@@ -1,0 +1,130 @@
+{
+  "success": true,
+  "source": {
+    "store_id": 15520,
+    "user_id": 1515,
+    "store_name": "El Capi de Playa",
+    "phone": "+529842805953",
+    "recovered_at": "2026-06-10",
+    "notes": [
+      "El endpoint https://routicket.com/tienda/get_tienda.php?id_tienda=15520 responde productos: [].",
+      "El endpoint https://routicket.com/tiendas/productos.php?id_tienda=15520 responde [].",
+      "El endpoint POS publico por user_id=1515 no tiene datos guardados.",
+      "Estos productos fueron recuperados desde brain/rtk-brain/data/whatsapp-comunicaciones-routicket-secundario.json y enriquecidos con brain/rtk-brain/data/pedidos-activos.json cuando habia objeto raw."
+    ]
+  },
+  "data": {
+    "titulo": "El Capi de Playa",
+    "descripcion": "Restaurante de Mariscos",
+    "foto": "https://i.imgur.com/V1OHJdP.jpeg",
+    "tel": "+529842805953",
+    "maps": "https://routicket.com/map",
+    "url": "https://www.routicket.com",
+    "productos": [
+      {
+        "id": null,
+        "name": "Curricanes de atún",
+        "description": "Una mezcla perfecta de frutos de mar y tierra, jícama, mango, aguacate, cebolla, pepino, envueltos de un corte a su perfección de atún fresco, se acompaña de salsa cítrica de ajonjolí, chilito serrano, aceite oliva y sal gruesa.",
+        "price": 269,
+        "currency": "MXN",
+        "image": "",
+        "fallbackImage": "",
+        "id_categoria": null,
+        "category_name": "Entradas",
+        "recovered_from": "whatsapp_menu",
+        "confidence": "medium"
+      },
+      {
+        "id": 1075,
+        "name": "Dedos de pescado",
+        "description": "Tiras de pescado fresco, empanizado crujiente, papas fritas y salsa de tomate.",
+        "price": 169,
+        "currency": "MXN",
+        "image": "https://i.imgur.com/g4mbSGy.jpeg",
+        "fallbackImage": "https://i.imgur.com/g4mbSGy.jpeg",
+        "id_categoria": 23,
+        "category_name": "Menú niños",
+        "recovered_from": "pedido_activo_raw",
+        "confidence": "high"
+      },
+      {
+        "id": null,
+        "name": "6 PZ de ostión fresco",
+        "description": "Ostiones frescos de Ensenada, servidos con salsa rasurada y limones frescos.",
+        "price": 205,
+        "currency": "MXN",
+        "image": "",
+        "fallbackImage": "",
+        "id_categoria": null,
+        "category_name": "Ostras vivas",
+        "recovered_from": "whatsapp_menu",
+        "confidence": "medium"
+      },
+      {
+        "id": null,
+        "name": "Dedos de queso",
+        "description": "Queso de la mejor calidad, empanizado, este platillo va acompañado de salsa de tomates.",
+        "price": 149,
+        "currency": "MXN",
+        "image": "",
+        "fallbackImage": "",
+        "id_categoria": 23,
+        "category_name": "Menú niños",
+        "recovered_from": "whatsapp_menu",
+        "confidence": "medium"
+      },
+      {
+        "id": null,
+        "name": "Coctel mixto",
+        "description": "Coctel al estilo Capi, con salsa a base de jugo de ostión, jugo de camarón y catsup, aguacate, cebolla blanca y galletitas saladas.",
+        "price": 225,
+        "currency": "MXN",
+        "image": "",
+        "fallbackImage": "",
+        "id_categoria": null,
+        "category_name": "Cocteles medianos",
+        "recovered_from": "whatsapp_menu",
+        "confidence": "medium"
+      },
+      {
+        "id": null,
+        "name": "Camarones bolas de cañón",
+        "description": "Camarones bolas de cañón.",
+        "price": 299,
+        "currency": "MXN",
+        "image": "",
+        "fallbackImage": "",
+        "id_categoria": null,
+        "category_name": "Camarones",
+        "recovered_from": "whatsapp_menu",
+        "confidence": "medium"
+      },
+      {
+        "id": 1050,
+        "name": "Castacan con pulpo",
+        "description": "Castacan con pulpo",
+        "price": 359,
+        "currency": "MXN",
+        "image": "https://i.imgur.com/HqvJAuD.jpeg",
+        "fallbackImage": "https://i.imgur.com/HqvJAuD.jpeg",
+        "id_categoria": 1,
+        "category_name": "Comidas Fuertes",
+        "recovered_from": "pedido_activo_raw",
+        "confidence": "high"
+      },
+      {
+        "id": null,
+        "name": "Aguachile de camarón en salsa de serranos",
+        "description": "Aguachile de camarón en salsa de serranos.",
+        "price": 379,
+        "currency": "MXN",
+        "image": "",
+        "fallbackImage": "",
+        "id_categoria": null,
+        "category_name": "Entradas",
+        "recovered_from": "whatsapp_menu",
+        "confidence": "medium"
+      }
+    ]
+  }
+}
